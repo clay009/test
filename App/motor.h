@@ -2,6 +2,7 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_ 
 
+//output
 #define  CH1_ON()   	GPIO_ResetBits(GPIOC, GPIO_Pin_6)
 #define  CH1_OFF()   	GPIO_SetBits(GPIOC, GPIO_Pin_6)
 #define  CH1N_ON()   	GPIO_ResetBits(GPIOA, GPIO_Pin_7)
@@ -15,6 +16,7 @@
 #define  CH3N_ON()   	GPIO_ResetBits(GPIOB, GPIO_Pin_1)
 #define  CH3N_OFF()   	GPIO_SetBits(GPIOB, GPIO_Pin_1)
 
+//input Fault out 
 
 void MOTOR_init(void);
 void MOTOR_start(void);

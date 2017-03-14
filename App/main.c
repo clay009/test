@@ -172,27 +172,27 @@ int main(void)
 		
 	MOTOR_init();
 		MOTOR_set_direction(FALSE);
-		MOTOR_set_step_interval(1000); //us
+		MOTOR_set_step_interval(100); //us
 	MOTOR_start();
 		
-
+counter =0;//test
 	while(1)
 		{
-			if(counter < 3){	
-				counter ++;			
-				if(counter == 3){
-					STM_EVAL_LEDToggle(LED2);
-					MOTOT_stop();
-				}				
-			}
-			else{
-				counter ++;	
-				if(counter > 5){
-					counter = 0;
-					STM_EVAL_LEDToggle(LED2);
-					MOTOR_start();
-				}
-			}
+//			if(counter < 3){	
+//				counter ++;			
+//				if(counter == 3){
+//					STM_EVAL_LEDToggle(LED2);
+//					MOTOT_stop();
+//				}				
+//			}
+//			else{
+//				counter ++;	
+//				if(counter > 5){
+//					counter = 0;
+//					STM_EVAL_LEDToggle(LED2);
+//					MOTOR_start();
+//				}
+//			}
 
 			
 		STM_EVAL_LEDToggle(LED1);
