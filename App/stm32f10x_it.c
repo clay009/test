@@ -159,7 +159,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
-		STM_EVAL_LEDToggle(LED2);
+		//clay STM_EVAL_LEDToggle(LED2);
 			MOTOR_run_step();
 		}
 	}

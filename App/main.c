@@ -119,39 +119,7 @@ void RCC_Configuration(void)
 	
 
 
-#if 0 //clay mask
-void TIM3_Configuration(void)
-	{
-	/* TIM3 clock enable */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-	
-	
-	/* ---------------------------------------------------------------
-	TIM3CLK 即PCLK1=36MHz
-	TIM3CLK = 36 MHz, Prescaler = 7200, TIM3 counter clock = 5K,即改变一次为5K,周期就为10K
-	--------------------------------------------------------------- */
-	/* Time base configuration */
-	TIM_TimeBaseStructure.TIM_Period = 50; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
-	TIM_TimeBaseStructure.TIM_Prescaler =(72-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
-	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
-	
-	/* Enables the Update event for TIM3 */
-	//TIM_UpdateDisableConfig(TIM3,ENABLE); 	//使能 TIM3 更新事件 
-	
-	/* TIM IT enable */
-	TIM_ITConfig(  //使能或者失能指定的TIM中断
-		TIM3, //TIM2
-		TIM_IT_Update  |  //TIM 中断源
-		TIM_IT_Trigger,   //TIM 触发中断源 
-		ENABLE  //使能
-		);
-	
-	/* TIM3 enable counter */
-	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
-	}
-#endif //clay mask
+
 
 //配置所有外设
 void Init_All_Periph(void)
@@ -196,6 +164,7 @@ void Delay(vu32 nCount)
 
 int main(void)
 	{  
+		int counter =0;
 	Init_All_Periph();
 	SysTick_Initaize();
 	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
@@ -205,10 +174,28 @@ int main(void)
 		MOTOR_set_direction(FALSE);
 	MOTOR_start();
 		
+
 	while(1)
 		{
+			if(counter < 3){	
+				counter ++;			
+				if(counter == 3){
+					STM_EVAL_LEDToggle(LED2);
+					MOTOT_stop();
+				}				
+			}
+			else{
+				counter ++;	
+				if(counter > 5){
+					counter = 0;
+					STM_EVAL_LEDToggle(LED2);
+					MOTOR_start();
+				}
+			}
+
+			
 		STM_EVAL_LEDToggle(LED1);
-	    delay_ms(200);
+	    delay_ms(100);
 		}
 	
 	}

@@ -17,8 +17,8 @@
 
 
 void MOTOR_init(void);
-
 void MOTOR_start(void);
+void MOTOT_stop(void);
 
 void MOTOR_run_step(void);
 void MOTOR_set_direction(bool wise);
