@@ -437,6 +437,11 @@
               <FileType>1</FileType>
               <FilePath>.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\UART_INTERFACE.c</FilePath>
             </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\motor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -36,7 +36,7 @@ Date : 2010.12.05
 #include "SysTickDelay.h"
 #include "UART_INTERFACE.h"
 #include <stdio.h>
-
+#include "motor.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef enum { FAILED = 0, PASSED = !FAILED} TestStatus;
@@ -46,7 +46,7 @@ typedef enum { FAILED = 0, PASSED = !FAILED} TestStatus;
 #define countof(a)   (sizeof(a) / sizeof(*(a)))
 
 /* Private variables ---------------------------------------------------------*/
-TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+//clay mask TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 /* Private function prototypes -----------------------------------------------*/
 void RCC_Configuration(void);
 void GPIO_Configuration(void);
@@ -119,7 +119,7 @@ void RCC_Configuration(void)
 	
 
 
-
+#if 0 //clay mask
 void TIM3_Configuration(void)
 	{
 	/* TIM3 clock enable */
@@ -151,7 +151,7 @@ void TIM3_Configuration(void)
 	/* TIM3 enable counter */
 	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
 	}
-
+#endif //clay mask
 
 //配置所有外设
 void Init_All_Periph(void)
@@ -163,10 +163,11 @@ void Init_All_Periph(void)
 
 	GPIO_Configuration();
 	
+		MOTOR_init();
 	//USART1_Configuration();
 	//USART_Configuration(9600);
 	
-	TIM3_Configuration();
+	//TIM3_Configuration();
 	}
 
 
@@ -199,7 +200,10 @@ int main(void)
 	SysTick_Initaize();
 	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
 	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
-
+		
+	MOTOR_init();
+	MOTOR_start();
+		
 	while(1)
 		{
 		STM_EVAL_LEDToggle(LED1);
