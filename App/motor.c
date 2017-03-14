@@ -4,7 +4,8 @@ for AC sevor motor
 #include "stm32f10x.h"
 #include "motor.h"
 
-static int motor_phase = 1;
+static char motor_phase = 1;
+static bool motor_clockwise_direction = FALSE  ; // TRUE: clockwise, FALSE: anti clockwise
 
 void MOTOR_IO_init(void){
 	  GPIO_InitTypeDef GPIO_InitStructure;
@@ -161,14 +162,15 @@ void MOTOR_clockwise_run_one_step(void){
 	motor_phase=(motor_phase+1)%6;
 }
 
-void MOTOT_stop(void){
-	motor_phase = 0;
-	CH1_OFF();
-	CH1N_OFF();
-	CH2_OFF();
-	CH2N_OFF();
-	CH3_OFF();
-	CH3N_OFF();
+void MOTOR_run_step(void){
+	if (motor_clockwise_direction)  
+		MOTOR_clockwise_run_one_step();
+	else 
+		MOTOR_anti_clockwise_run_one_step();
+}
+
+void MOTOR_set_direction(bool wise){
+	motor_clockwise_direction = wise;
 }
 
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -203,6 +205,20 @@ void TIM3_Configuration(void)
 	/* TIM3 enable counter */
 	//TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
 	}
+
+
+void MOTOT_stop(void){
+	//motor_phase = 0; not change
+	TIM_Cmd(TIM3, DISABLE);
+	CH1_OFF();
+	CH1N_OFF();
+	CH2_OFF();
+	CH2N_OFF();
+	CH3_OFF();
+	CH3N_OFF();
+}
+
+
 
 void MOTOR_init(void){
 	MOTOR_IO_init();

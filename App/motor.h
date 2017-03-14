@@ -20,9 +20,10 @@ void MOTOR_init(void);
 
 void MOTOR_start(void);
 
-//void MOTOR_clockwise_run(void);
+void MOTOR_run_step(void);
+void MOTOR_set_direction(bool wise);
 
-void MOTOR_clockwise_run_one_step(void);
-void MOTOR_anti_clockwise_run_one_step(void);
+//void MOTOR_clockwise_run_one_step(void);
+//void MOTOR_anti_clockwise_run_one_step(void);
 
 #endif

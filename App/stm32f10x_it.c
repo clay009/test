@@ -160,7 +160,7 @@ void TIM3_IRQHandler(void)   //TIM3ÖÐ¶Ï
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
 		STM_EVAL_LEDToggle(LED2);
-			MOTOR_clockwise_run_one_step();
+			MOTOR_run_step();
 		}
 	}
 

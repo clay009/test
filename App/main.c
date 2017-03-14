@@ -202,6 +202,7 @@ int main(void)
 	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
 		
 	MOTOR_init();
+		MOTOR_set_direction(FALSE);
 	MOTOR_start();
 		
 	while(1)
