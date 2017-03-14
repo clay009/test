@@ -174,19 +174,33 @@ void MOTOR_set_direction(bool wise){
 }
 
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-void TIM3_Configuration(void)
+void TIM3_Configuration(int interval)
 	{
+		uint16_t peroid,scaler;
 	/* TIM3 clock enable */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-	
+			
+		
+	if ((interval > 999)){ // > 100ms
+			scaler = 7200;//ms
+			peroid = interval / 100 ;
+		}
+		else if ((interval > 99)&&(interval < 1000)){ // 100ms~10ms
+			scaler = 720; //100us
+			peroid = interval /10;
+		}
+		else { //< 1000 us
+			scaler = 72;//10us
+			peroid = interval ;
+		}
 	
 	/* ---------------------------------------------------------------
 	TIM3CLK 即PCLK1=36MHz
 	TIM3CLK = 36 MHz, Prescaler = 7200, TIM3 counter clock = 5K,即改变一次为5K,周期就为10K
 	--------------------------------------------------------------- */
 	/* Time base configuration */
-	TIM_TimeBaseStructure.TIM_Period = 50; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
-	TIM_TimeBaseStructure.TIM_Prescaler =(720-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
+	TIM_TimeBaseStructure.TIM_Period = peroid; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
+	TIM_TimeBaseStructure.TIM_Prescaler =(scaler-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
@@ -217,16 +231,19 @@ void MOTOT_stop(void){
 	CH3_OFF();
 	CH3N_OFF();
 }
+void MOTOR_start(void){
+	TIM_Cmd(TIM3, ENABLE);
+}
 
-
+void MOTOR_set_step_interval(int us){
+	TIM3_Configuration(us);
+}
 
 void MOTOR_init(void){
 	MOTOR_IO_init();
 	MOTOT_stop();
-	TIM3_Configuration();
+	//TIM3_Configuration();
 }
 
-void MOTOR_start(void){
-	TIM_Cmd(TIM3, ENABLE);
-}
+
 

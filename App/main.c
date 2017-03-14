@@ -172,6 +172,7 @@ int main(void)
 		
 	MOTOR_init();
 		MOTOR_set_direction(FALSE);
+		MOTOR_set_step_interval(1000); //us
 	MOTOR_start();
 		
 
@@ -195,7 +196,7 @@ int main(void)
 
 			
 		STM_EVAL_LEDToggle(LED1);
-	    delay_ms(100);
+	    delay_ms(200);
 		}
 	
 	}
