@@ -75,23 +75,32 @@
 /**
  * @brief KEY0
  */
-#define BUTTON0_PORT          GPIOA
-#define BUTTON0_CLK           RCC_APB2Periph_GPIOA
-#define BUTTON0_PIN           GPIO_Pin_13
-#define BUTTON0_EXTI_LINE     EXTI_Line13
-#define BUTTON0_PORT_SOURCE   GPIO_PortSourceGPIOA
-#define BUTTON0_PIN_SOURCE    GPIO_PinSource13
+//#define BUTTON0_PORT          GPIOC//GPIOA
+//#define BUTTON0_CLK           RCC_APB2Periph_GPIOC//A
+//#define BUTTON0_PIN           GPIO_Pin_1//13
+//#define BUTTON0_EXTI_LINE     EXTI_Line1//13
+//#define BUTTON0_PORT_SOURCE   GPIO_PortSourceGPIOC//A
+//#define BUTTON0_PIN_SOURCE    GPIO_PinSource1//13
+//#define BUTTON0_IRQn          EXTI15_10_IRQn 
+
+//
+#define BUTTON0_PORT          GPIOB//GPIOA
+#define BUTTON0_CLK           RCC_APB2Periph_GPIOB//A
+#define BUTTON0_PIN           GPIO_Pin_9//13
+#define BUTTON0_EXTI_LINE     EXTI_Line9//13
+#define BUTTON0_PORT_SOURCE   GPIO_PortSourceGPIOB//A
+#define BUTTON0_PIN_SOURCE    GPIO_PinSource9//13
 #define BUTTON0_IRQn          EXTI15_10_IRQn 
 
 /**
  * @brief KEY1
  */
-#define BUTTON1_PORT          GPIOA
-#define BUTTON1_CLK           RCC_APB2Periph_GPIOA
-#define BUTTON1_PIN           GPIO_Pin_15
-#define BUTTON1_EXTI_LINE     EXTI_Line15
-#define BUTTON1_PORT_SOURCE   GPIO_PortSourceGPIOA
-#define BUTTON1_PIN_SOURCE    GPIO_PinSource15
+#define BUTTON1_PORT          GPIOC//A
+#define BUTTON1_CLK           RCC_APB2Periph_GPIOC//A
+#define BUTTON1_PIN           GPIO_Pin_13//15
+#define BUTTON1_EXTI_LINE     EXTI_Line13//15
+#define BUTTON1_PORT_SOURCE   GPIO_PortSourceGPIOC//A
+#define BUTTON1_PIN_SOURCE    GPIO_PinSource13//15
 #define BUTTON1_IRQn          EXTI15_10_IRQn 
 
 /**

@@ -26,7 +26,7 @@
 //#include "GLCD.h"
 //#include <stdio.h>
 #include "motor.h"
-
+#include "SysTickDelay.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -42,6 +42,52 @@
 /******************************************************************************/
 /*            Cortex-M3 Processor Exceptions Handlers                         */
 /******************************************************************************/
+
+//外部中断0服务程序
+void EXTI0_IRQHandler(void)
+	{
+//方法一:
+//	delay_ms(10);//消抖
+//	if (STM_EVAL_PBGetState(Button_WAKEUP) == 0x01)		//按键按下:高电平有效
+//		{
+//		STM_EVAL_LEDToggle(LED1);
+//		STM_EVAL_LEDToggle(LED2);
+//		}		 
+//	//EXTI->PR=1<<0;  //清除LINE0上的中断标志位  
+//	/* Clear the Key Button EXTI line pending bit */  
+//	EXTI_ClearITPendingBit(WAKEUP_BUTTON_EXTI_LINE);  //清除EXTI0线路挂起位
+
+//方法二:
+//	if(EXTI_GetITStatus(WAKEUP_BUTTON_EXTI_LINE) != RESET)	  //检查指定的EXTI0线路触发请求发生与否
+//		{
+//		/* Clear the Key Button EXTI line pending bit */  
+//		EXTI_ClearITPendingBit(WAKEUP_BUTTON_EXTI_LINE);  //清除EXTI0线路挂起位
+//		/* Toggle LED1/2 */
+//		STM_EVAL_LEDToggle(LED1);
+//		STM_EVAL_LEDToggle(LED2);
+//		}
+	}
+
+//外部中断15~10服务程序
+void EXTI15_10_IRQHandler(void)
+	{			
+	delay_ms(10);    //消抖			 
+	if (STM_EVAL_PBGetState(Button_KEY0) == 0x00)		//按键按下:低电平有效
+		{
+		STM_EVAL_LEDToggle(LED2);
+			 MOTOR_fault_out();
+		}
+	else if (STM_EVAL_PBGetState(Button_KEY1) == 0x00)		//按键按下:低电平有效
+		{
+		STM_EVAL_LEDToggle(LED2);
+		}
+	//EXTI->PR=1<<13;     //清除LINE13上的中断标志位  
+	//EXTI->PR=1<<15;     //清除LINE15上的中断标志位  
+	/* Clear the Key Button EXTI line pending bit */  
+	EXTI_ClearITPendingBit(BUTTON0_EXTI_LINE);  //清除EXTI13线路挂起位
+	EXTI_ClearITPendingBit(BUTTON1_EXTI_LINE);  //清除EXTI15线路挂起位
+	}
+
 
 /**
   * @brief   This function handles NMI exception.

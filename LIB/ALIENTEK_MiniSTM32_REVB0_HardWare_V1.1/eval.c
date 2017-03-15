@@ -233,7 +233,7 @@ void STM_EVAL_PBInit(Button_TypeDef Button, Button_Mode_TypeDef Button_Mode)  //
 		{
 	    GPIO_InitStructure.GPIO_Mode =GPIO_Mode_IPD;//上拉输入
 		}
-	else if(Button==Button_KEY0)  //KEY0按键,PA13 JTMS,高电平有效,输入引脚需下拉设置
+	else if(Button==Button_KEY0)  //KEY0按键,PA13 JTMS,高电平有效,输入引脚需下拉设置//--> PC1
 		{
 		//使用前请选禁止JTAG使用此引脚
 	  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//上拉输入 

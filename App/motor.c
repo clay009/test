@@ -3,6 +3,7 @@ for AC sevor motor
 */
 #include "stm32f10x.h"
 #include "motor.h"
+#include "eval.h" //for EXI
 
 static char motor_phase = 1;
 static bool motor_clockwise_direction = FALSE  ; // TRUE: clockwise, FALSE: anti clockwise
@@ -42,7 +43,23 @@ void MOTOR_IO_init(void){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-	
+	//fault out put //PB9 input
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;//CH3N  PB1
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//  GPIO_Init(GPIOB, &GPIO_InitStructure);
+//	//test key0 PC1
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;//CH3N  PB1
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//  GPIO_Init(GPIOC, &GPIO_InitStructure);
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_13;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//…œ¿≠ ‰»Î
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//  GPIO_Init(GPIOC, &GPIO_InitStructure); 
+	//fault output int
+	STM_EVAL_PBInit(Button_KEY0, Mode_EXTI);	
+	STM_EVAL_PBInit(Button_KEY1, Mode_EXTI);	
 }
 
 
@@ -245,5 +262,6 @@ void MOTOR_init(void){
 	//TIM3_Configuration();
 }
 
-
+void MOTOR_fault_out(void){
+}
 

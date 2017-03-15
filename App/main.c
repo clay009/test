@@ -131,7 +131,7 @@ void Init_All_Periph(void)
 
 	GPIO_Configuration();
 	
-		MOTOR_init();
+		//MOTOR_init();
 	//USART1_Configuration();
 	//USART_Configuration(9600);
 	
@@ -164,7 +164,7 @@ void Delay(vu32 nCount)
 
 int main(void)
 	{  
-		int counter =0;
+//		int counter =0;
 	Init_All_Periph();
 	SysTick_Initaize();
 	STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
@@ -175,7 +175,7 @@ int main(void)
 		MOTOR_set_step_interval(100); //us
 	MOTOR_start();
 		
-counter =0;//test
+//	counter =0;//test
 	while(1)
 		{
 //			if(counter < 3){	
