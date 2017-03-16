@@ -28,6 +28,14 @@
 #include "motor.h"
 #include "SysTickDelay.h"
 
+
+extern u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
+//接收状态
+//bit7，接收完成标志
+//bit6，接收到0x0d
+//bit5~0，接收到的有效字节数目
+extern u8 USART_RX_STA;       //接收状态标记
+
 /** @addtogroup Template_Project
   * @{
   */
@@ -207,6 +215,50 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
 		//clay STM_EVAL_LEDToggle(LED2);
 			MOTOR_run_step();
+		}
+	}
+
+	
+/******************************************************************************/
+/*                 STM32F10x Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file (startup_stm32f10x_xx.s).                                            */
+/******************************************************************************/
+//u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
+////接收状态
+////bit7，接收完成标志
+////bit6，接收到0x0d
+////bit5~0，接收到的有效字节数目
+//u8 USART_RX_STA=0;       //接收状态标记
+
+//注意,读取USARTx->SR能避免莫名其妙的错误 
+void USART1_IRQHandler(void)	//串口1中断服务程序
+	{
+	u8 Res;
+	//STM_EVAL_LEDToggle(LED2);
+	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
+		{
+		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
+		
+		if((USART_RX_STA&0x80)==0)//接收未完成
+			{
+			if(USART_RX_STA&0x40)//接收到了0x0d
+				{
+				if(Res!=0x0a)USART_RX_STA=0;//接收错误,重新开始
+				else USART_RX_STA|=0x80;	//接收完成了 
+				}
+			else //还没收到0X0D
+				{	
+				if(Res==0x0d)USART_RX_STA|=0x40;
+				else
+					{
+					USART_RX_BUF[USART_RX_STA&0X3F]=Res ;
+					USART_RX_STA++;
+					if(USART_RX_STA>63)USART_RX_STA=0;//接收数据错误,重新开始接收	  
+					}		 
+				}
+			}  		 
 		}
 	}
 

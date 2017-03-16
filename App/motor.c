@@ -60,6 +60,7 @@ void MOTOR_IO_init(void){
 	//fault output int
 	STM_EVAL_PBInit(Button_KEY0, Mode_EXTI);	
 	STM_EVAL_PBInit(Button_KEY1, Mode_EXTI);	
+	
 }
 
 
