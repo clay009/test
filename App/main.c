@@ -99,12 +99,12 @@ void NVIC_Configuration(void)
 		NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   //向量表位于FLASH
 	#endif
 
-	/* Enable the TIM3 global Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
-	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
+//	/* Enable the TIM3 for motor0 global Interrupt */
+//	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
+//	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
+//	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
+//	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
+//	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 	
 	
 		/* Enable the USARTy Interrupt */
@@ -146,7 +146,7 @@ void Init_All_Periph(void)
 	
 		//MOTOR_init();
 	//USART1_Configuration();
-	USART_Configuration(9600);
+	USART_Configuration(115200);
 	USART_RX_IntteruptEnable(USED_COM_NUMBER);		//接收中断使能
 	
 	//TIM3_Configuration();
@@ -179,9 +179,9 @@ void Delay(vu32 nCount)
 int main(void)
 	{  
 //		int counter =0;
-	u8 t;
-	u8 len;	
-	u16 times=0; 
+//	u8 t;
+//	u8 len;	
+//	u16 times=0; 
 		
 	Init_All_Periph();
 	SysTick_Initaize();
@@ -189,11 +189,11 @@ int main(void)
 	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
 		
 	MOTOR_init();
-		MOTOR_set_direction(FALSE);
+		MOTOR_set_clockwise(FALSE);
 		MOTOR_set_step_interval(100); //us
 	MOTOR_start();
 		
-		printf("\n test stm32 uart \n");
+//		printf("\n test stm32 uart \n");
 //	counter =0;//test
 	while(1)
 		{
@@ -213,64 +213,36 @@ int main(void)
 //				}
 //			}
 
-		if(USART_RX_STA&0x80)
-			{					   
-				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
-				printf("\n input :\n");
-				for(t=0;t<len;t++)
-				{
-					//USART1->DR=USART_RX_BUF[t];
-					//while((USART1->SR&0X40)==0);//等待发送结束
-					STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
-				}
-				printf("\n\n");//插入换行
-				USART_RX_STA=0;
-			}
-		else
-			{
-				times++;
-				if(times%50==0)
-					{
-						//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
-						printf(" tips: \n");
-					}
-				if(times%200==0)printf("end with the LR \n");  
-				if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
-				delay_ms(20);   
-			}
-			
-		//STM_EVAL_LEDToggle(LED1);
-	  //  delay_ms(200);
-		}
-//	
-//			if(USART_RX_STA&0x80)
+//		if(USART_RX_STA&0x80)
 //			{					   
-//			len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
-//			printf("\n您发送的消息为:\n");
-//			for(t=0;t<len;t++)
-//			{
-//			//USART1->DR=USART_RX_BUF[t];
-//			//while((USART1->SR&0X40)==0);//等待发送结束
-//			STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
-//			}
-//			printf("\n\n");//插入换行
-//			USART_RX_STA=0;
+//				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
+//				printf("\n input :\n");
+//				for(t=0;t<len;t++)
+//				{
+//					//USART1->DR=USART_RX_BUF[t];
+//					//while((USART1->SR&0X40)==0);//等待发送结束
+//					STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
+//				}
+//				printf("\n\n");//插入换行
+//				USART_RX_STA=0;
 //			}
 //		else
 //			{
-//			times++;
-//			if(times%50==0)
-//				{
-//				printf("\nMiniSTM32开发板 串口实验\n");
-//				//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
-//				printf("正点原子@ALIENTEK\n\n\n");
-//				}
-//			if(times%200==0)printf("请输入数据,以回车键结束\n");  
-//			if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
-//			delay_ms(10);   
+//				times++;
+//				if(times%50==0)
+//					{
+//						//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
+//						printf(" tips: \n");
+//					}
+//				if(times%200==0)printf("end with the LR \n");  
+//				if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
+//				delay_ms(20);   
 //			}
-//		}
-	}
+			
+		//STM_EVAL_LEDToggle(LED1);
+	  //  delay_ms(200);
+		}//while
+	}//main
 
 
 

@@ -23,7 +23,7 @@ void MOTOR_start(void);
 void MOTOT_stop(void);
 
 void MOTOR_run_step(void);
-void MOTOR_set_direction(bool wise);
+void MOTOR_set_clockwise(bool wise);
 void MOTOR_set_step_interval(int us);
 void MOTOR_fault_out(void);
 //void MOTOR_clockwise_run_one_step(void);

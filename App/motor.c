@@ -64,6 +64,16 @@ void MOTOR_IO_init(void){
 }
 
 
+void MOTOR_set_timer_int(void){
+	NVIC_InitTypeDef NVIC_InitStructure;
+		/* Enable the TIM3 for motor0 global Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
+	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
+}
+
 void MOTOR_anti_clockwise_run_one_step(void){
 	
 	switch(motor_phase){
@@ -187,7 +197,7 @@ void MOTOR_run_step(void){
 		MOTOR_anti_clockwise_run_one_step();
 }
 
-void MOTOR_set_direction(bool wise){
+void MOTOR_set_clockwise(bool wise){
 	motor_clockwise_direction = wise;
 }
 
@@ -259,6 +269,7 @@ void MOTOR_set_step_interval(int us){
 
 void MOTOR_init(void){
 	MOTOR_IO_init();
+	MOTOR_set_timer_int();
 	MOTOT_stop();
 	//TIM3_Configuration();
 }
