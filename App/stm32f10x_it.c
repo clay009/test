@@ -25,7 +25,7 @@
 #include "eval.h"  
 //#include "GLCD.h"
 //#include <stdio.h>
-#include "motor.h"
+#include "motor_servo.h"
 #include "SysTickDelay.h"
 
 

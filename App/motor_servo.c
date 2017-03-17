@@ -2,7 +2,7 @@
 for AC sevor motor
 */
 #include "stm32f10x.h"
-#include "motor.h"
+#include "motor_servo.h"
 #include "eval.h" //for EXI
 
 static char motor_phase = 1;
@@ -43,6 +43,11 @@ void MOTOR_IO_init(void){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
+	//STOP pin
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;//stop  pb8
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 	//fault out put //PB9 input
 //	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;//CH3N  PB1
 //  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -258,8 +263,10 @@ void MOTOT_stop(void){
 	CH2N_OFF();
 	CH3_OFF();
 	CH3N_OFF();
+	MOTOR_STOP();
 }
 void MOTOR_start(void){
+	MOTOR_ENABLE();
 	TIM_Cmd(TIM3, ENABLE);
 }
 
@@ -275,5 +282,6 @@ void MOTOR_init(void){
 }
 
 void MOTOR_fault_out(void){
+	MOTOR_STOP();
 }
 

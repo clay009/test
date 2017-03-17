@@ -36,7 +36,7 @@ Date : 2010.12.05
 #include "SysTickDelay.h"
 #include "UART_INTERFACE.h"
 #include <stdio.h>
-#include "motor.h"
+#include "motor_servo.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef enum { FAILED = 0, PASSED = !FAILED} TestStatus;

@@ -1,6 +1,9 @@
+/*
+* for one motor header 
+*/
 
-#ifndef MOTOR_H_
-#define MOTOR_H_ 
+#ifndef MOTOR_SERVO_H_
+#define MOTOR_SERVO_H_ 
 
 //output
 #define  CH1_ON()   	GPIO_ResetBits(GPIOC, GPIO_Pin_6)
@@ -16,6 +19,9 @@
 #define  CH3N_ON()   	GPIO_ResetBits(GPIOB, GPIO_Pin_1)
 #define  CH3N_OFF()   	GPIO_SetBits(GPIOB, GPIO_Pin_1)
 
+#define  MOTOR_STOP()   	GPIO_ResetBits(GPIOB, GPIO_Pin_8) // LOW for stop motor power
+#define  MOTOR_ENABLE()   	GPIO_SetBits(GPIOB, GPIO_Pin_8)
+
 //input Fault out 
 
 void MOTOR_init(void);
@@ -29,4 +35,4 @@ void MOTOR_fault_out(void);
 //void MOTOR_clockwise_run_one_step(void);
 //void MOTOR_anti_clockwise_run_one_step(void);
 
-#endif
+#endif//MOTOR_SERVO_H_
