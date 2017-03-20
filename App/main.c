@@ -144,7 +144,7 @@ void Init_All_Periph(void)
 
 	GPIO_Configuration();
 	
-		//MOTOR_init();
+		//SERVO_M_init();
 	//USART1_Configuration();
 	USART_Configuration(115200);
 	USART_RX_IntteruptEnable(USED_COM_NUMBER);		//接收中断使能
@@ -188,10 +188,10 @@ int main(void)
 	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
 	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
 		
-	MOTOR_init();
-		MOTOR_set_clockwise(FALSE);
-		MOTOR_set_step_interval(100); //us
-	MOTOR_start();
+	SERVO_M_init();
+		SERVO_M_set_clockwise(FALSE);
+		SERVO_M_set_step_interval(100); //us
+	SERVO_M_start();
 		
 //		printf("\n test stm32 uart \n");
 //	counter =0;//test
@@ -209,7 +209,7 @@ int main(void)
 //				if(counter > 5){
 //					counter = 0;
 //					STM_EVAL_LEDToggle(LED2);
-//					MOTOR_start();
+//					SERVO_M_start();
 //				}
 //			}
 

@@ -5,49 +5,49 @@ for AC sevor motor
 #include "motor_servo.h"
 #include "eval.h" //for EXI
 
-static char motor_phase = 1;
-static bool motor_clockwise_direction = FALSE  ; // TRUE: clockwise, FALSE: anti clockwise
+static char SERVO_M_phase = 1;
+static bool SERVO_M_clockwise_direction = FALSE  ; // TRUE: clockwise, FALSE: anti clockwise
 
-void MOTOR_IO_init(void){
+void SERVO_M_IO_init(void){
 	  GPIO_InitTypeDef GPIO_InitStructure;
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB| RCC_APB2Periph_GPIOC| RCC_APB2Periph_GPIOD, ENABLE);
 	
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;//CH1 PC6
+  GPIO_InitStructure.GPIO_Pin = CH1_PIN;//CH1 PC6
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(CH1_PORT, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;//CH1N  PA7
+	GPIO_InitStructure.GPIO_Pin = CH1N_PIN;//CH1N  PA7
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+  GPIO_Init(CH1N_PORT, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;//CH2 PC7
+	GPIO_InitStructure.GPIO_Pin = CH2_PIN;//CH2 PC7
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(CH2_PORT, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;//CH2N  PB0
+	GPIO_InitStructure.GPIO_Pin = CH2N_PIN;//CH2N  PB0
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_Init(CH2N_PORT, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;//CH3 PC8
+	GPIO_InitStructure.GPIO_Pin = CH3_PIN;//CH3 PC8
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(CH3_PORT, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;//CH3N  PB1
+	GPIO_InitStructure.GPIO_Pin = CH3N_PIN;//CH3N  PB1
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_Init(CH3N_PORT, &GPIO_InitStructure);
 	
 	//STOP pin
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;//stop  pb8
+	GPIO_InitStructure.GPIO_Pin = STOP_PIN;//stop  pb8
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_Init(STOP_PORT, &GPIO_InitStructure);
 	//fault out put //PB9 input
 //	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;//CH3N  PB1
 //  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -69,7 +69,7 @@ void MOTOR_IO_init(void){
 }
 
 
-void MOTOR_set_timer_int(void){
+void SERVO_M_set_timer_int(void){
 	NVIC_InitTypeDef NVIC_InitStructure;
 		/* Enable the TIM3 for motor0 global Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
@@ -79,9 +79,9 @@ void MOTOR_set_timer_int(void){
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 }
 
-void MOTOR_anti_clockwise_run_one_step(void){
+void SERVO_M_anti_clockwise_run_one_step(void){
 	
-	switch(motor_phase){
+	switch(SERVO_M_phase){
 		case 0: //phase 1
 			CH2_ON();
 			CH2N_OFF();
@@ -131,15 +131,15 @@ void MOTOR_anti_clockwise_run_one_step(void){
 			CH3N_OFF();
 			break;
 		default:
-			motor_phase = 5; //error state do nothing
+			SERVO_M_phase = 5; //error state do nothing
 			break;
 	};
-	motor_phase=(motor_phase+1)%6;
+	SERVO_M_phase=(SERVO_M_phase+1)%6;
 }
 
-void MOTOR_clockwise_run_one_step(void){
+void SERVO_M_clockwise_run_one_step(void){
 	
-	switch(motor_phase){
+	switch(SERVO_M_phase){
 		case 0: //phase 1
 			CH1_ON();
 			CH1N_OFF();
@@ -189,21 +189,21 @@ void MOTOR_clockwise_run_one_step(void){
 			CH3N_OFF();
 			break;
 		default:
-			motor_phase = 5; //error state do nothing
+			SERVO_M_phase = 5; //error state do nothing
 			break;
 	};
-	motor_phase=(motor_phase+1)%6;
+	SERVO_M_phase=(SERVO_M_phase+1)%6;
 }
 
-void MOTOR_run_step(void){
-	if (motor_clockwise_direction)  
-		MOTOR_clockwise_run_one_step();
+void SERVO_M_run_step(void){
+	if (SERVO_M_clockwise_direction)  
+		SERVO_M_clockwise_run_one_step();
 	else 
-		MOTOR_anti_clockwise_run_one_step();
+		SERVO_M_anti_clockwise_run_one_step();
 }
 
-void MOTOR_set_clockwise(bool wise){
-	motor_clockwise_direction = wise;
+void SERVO_M_set_clockwise(bool wise){
+	SERVO_M_clockwise_direction = wise;
 }
 
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -255,7 +255,7 @@ void TIM3_Configuration(int interval)
 
 
 void MOTOT_stop(void){
-	//motor_phase = 0; not change
+	//SERVO_M_phase = 0; not change
 	TIM_Cmd(TIM3, DISABLE);
 	CH1_OFF();
 	CH1N_OFF();
@@ -263,25 +263,25 @@ void MOTOT_stop(void){
 	CH2N_OFF();
 	CH3_OFF();
 	CH3N_OFF();
-	MOTOR_STOP();
+	SERVO_M_STOP();
 }
-void MOTOR_start(void){
-	MOTOR_ENABLE();
+void SERVO_M_start(void){
+	SERVO_M_ENABLE();
 	TIM_Cmd(TIM3, ENABLE);
 }
 
-void MOTOR_set_step_interval(int us){
+void SERVO_M_set_step_interval(int us){
 	TIM3_Configuration(us);
 }
 
-void MOTOR_init(void){
-	MOTOR_IO_init();
-	MOTOR_set_timer_int();
+void SERVO_M_init(void){
+	SERVO_M_IO_init();
+	SERVO_M_set_timer_int();
 	MOTOT_stop();
 	//TIM3_Configuration();
 }
 
-void MOTOR_fault_out(void){
-	MOTOR_STOP();
+void SERVO_M_fault_out(void){
+	SERVO_M_STOP();
 }
 

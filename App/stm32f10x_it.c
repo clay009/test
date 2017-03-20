@@ -83,7 +83,7 @@ void EXTI15_10_IRQHandler(void)
 	if (STM_EVAL_PBGetState(Button_KEY0) == 0x00)		//按键按下:低电平有效
 		{
 		STM_EVAL_LEDToggle(LED2);
-			 MOTOR_fault_out();
+			 SERVO_M_fault_out();
 		}
 	else if (STM_EVAL_PBGetState(Button_KEY1) == 0x00)		//按键按下:低电平有效
 		{
@@ -214,7 +214,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
 		//clay STM_EVAL_LEDToggle(LED2);
-			MOTOR_run_step();
+			SERVO_M_run_step();
 		}
 	}
 
