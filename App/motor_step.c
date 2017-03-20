@@ -91,6 +91,12 @@ When the ENABLE pin is set Low, the output is forced OFF and goes to high impeda
 circuits are operating, so the excitation position proceeds when the CLK is input. Therefore, when ENABLE pin is
 returned to High, the output level conforms to the excitation position proceeded by the CLK input.
 */
+void STEP_M_set_enable(bool enable){
+	if(enable)
+		STEP_EN_L();
+	else
+		STEP_EN_H();
+}
 
 /*
 FDT 
@@ -98,6 +104,13 @@ FDT
 1.1V~3.1V OR OPEN : MIXED DECAY
 <0.8V	FAST DECAY
 */
+void STEP_M_DECAY(int fdt){
+	if(fdt ==0)
+		STEP_FDT_L();
+	else
+			STEP_FDT_H();
+}
+
 void STEP_M_IO_init(){
 	GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -138,6 +151,17 @@ void STEP_M_IO_init(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(M3_PORT, &GPIO_InitStructure);
 
+}
+
+void STEP_M_set_timer(void){
+
+	NVIC_InitTypeDef NVIC_InitStructure;
+		/* Enable the TIM5 for motor0 global Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM5中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
+	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
 }
 

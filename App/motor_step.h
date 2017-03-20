@@ -49,4 +49,9 @@ STK682 CONTROLER
 #define STEP_M3_L()	GPIO_ResetBits(M3_PORT, M3_PIN)
 
 void STEP_M_init(void);
+void STEP_M_CLK_toggle(void);
+void STEP_MOT_set_clockwise(bool wise);
+void STEP_M_set_enable(bool enable);
+void STEP_M_DECAY(int fdt);
+
 #endif//MOTOR_STEP_H_

@@ -390,26 +390,6 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>CMSIS</GroupName>
-          <Files>
-            <File>
-              <FileName>core_cm3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\core_cm3.c</FilePath>
-            </File>
-            <File>
-              <FileName>system_stm32f10x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\system_stm32f10x.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_stm32f10x_cl.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\startup\arm\startup_stm32f10x_cl.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>APP</GroupName>
           <Files>
             <File>
@@ -438,59 +418,44 @@
               <FilePath>.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\UART_INTERFACE.c</FilePath>
             </File>
             <File>
-              <FileName>motor.c</FileName>
+              <FileName>msg_handler.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\App\motor.c</FilePath>
+              <FilePath>.\App\msg_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor_servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\motor_servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor_step.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\motor_step.c</FilePath>
+            </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\App\eeprom.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>LCD_V1.0</GroupName>
+          <GroupName>CMSIS</GroupName>
           <Files>
             <File>
-              <FileName>LCD.c</FileName>
+              <FileName>core_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0\LCD.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
+              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\core_cm3.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f10x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\system_stm32f10x.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f10x_cl.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\LIB\CMSISV1.2.0\Core\CM3\startup\arm\startup_stm32f10x_cl.s</FilePath>
             </File>
           </Files>
         </Group>
