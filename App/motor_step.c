@@ -151,13 +151,70 @@ void STEP_M_IO_init(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(M3_PORT, &GPIO_InitStructure);
 
+	STEP_CLK_H();
+	STEP_M3_H();
+	STEP_M2_H();
+	STEP_M1_H();
+	STEP_CW_H();
+	STEP_EN_H();
+	STEP_FDT_H();
 }
 
-void STEP_M_set_timer(void){
+
+
+void TIM5_Configuration(int interval)
+	{
+		TIM_TimeBaseInitTypeDef  TIM5_TimeBaseStructure;
+		uint16_t peroid,scaler;
+	/* TIM3 clock enable */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
+			
+		
+	if ((interval > 999)){ // > 100ms
+			scaler = 7200;//ms
+			peroid = interval / 100 ;
+		}
+		else if ((interval > 99)&&(interval < 1000)){ // 100ms~10ms
+			scaler = 720; //100us
+			peroid = interval /10;
+		}
+		else { //< 1000 us
+			scaler = 72;//10us
+			peroid = interval ;
+		}
+	
+	/* ---------------------------------------------------------------
+	TIM3CLK 即PCLK1=36MHz
+	TIM3CLK = 36 MHz, Prescaler = 7200, TIM3 counter clock = 5K,即改变一次为5K,周期就为10K
+	--------------------------------------------------------------- */
+	/* Time base configuration */
+	TIM5_TimeBaseStructure.TIM_Period = peroid; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
+	TIM5_TimeBaseStructure.TIM_Prescaler =(scaler-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
+	TIM5_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
+	TIM5_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
+	TIM_TimeBaseInit(TIM5, &TIM5_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+	
+	/* Enables the Update event for TIM3 */
+	//TIM_UpdateDisableConfig(TIM3,ENABLE); 	//使能 TIM3 更新事件 
+	
+	/* TIM IT enable */
+	TIM_ITConfig(  //使能或者失能指定的TIM中断
+		TIM5, //TIM2
+		TIM_IT_Update  |  //TIM 中断源
+		TIM_IT_Trigger,   //TIM 触发中断源 
+		ENABLE  //使能
+		);
+	
+	/* TIM3 enable counter */
+	//TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
+	}
+
+
+void STEP_M_timer_init(void){
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 		/* Enable the TIM5 for motor0 global Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM5中断
+	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;  //TIM5中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
@@ -165,7 +222,15 @@ void STEP_M_set_timer(void){
 
 }
 
+void STEP_M_set_clock(int us){
+	TIM5_Configuration(us);
+}
+void STEP_M_start_run(void){
+	TIM_Cmd(TIM5, ENABLE); 
+}
+
 void STEP_M_init(void){
 	STEP_M_IO_init();
+	STEP_M_timer_init();
 }
 

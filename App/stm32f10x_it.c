@@ -26,6 +26,7 @@
 //#include "GLCD.h"
 //#include <stdio.h>
 #include "motor_servo.h"
+#include "motor_step.h"
 #include "SysTickDelay.h"
 
 
@@ -218,6 +219,21 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		}
 	}
 
+	
+/**
+  * @brief  This function handles TIM5 global interrupt request.
+  * @param  None
+  * @retval None
+  */
+void TIM5_IRQHandler(void)   //TIM3中断
+	{
+	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
+		{
+		TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
+		/* Pin PD.02 toggling with frequency = 10KHz */
+		STEP_M_CLK_toggle();
+		}
+	}
 	
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */

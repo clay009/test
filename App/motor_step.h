@@ -54,4 +54,7 @@ void STEP_MOT_set_clockwise(bool wise);
 void STEP_M_set_enable(bool enable);
 void STEP_M_DECAY(int fdt);
 
+void STEP_M_set_clock(int us);
+void STEP_M_start_run(void);
+	
 #endif//MOTOR_STEP_H_

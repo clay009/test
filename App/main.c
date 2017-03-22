@@ -37,6 +37,7 @@ Date : 2010.12.05
 #include "UART_INTERFACE.h"
 #include <stdio.h>
 #include "motor_servo.h"
+#include "motor_step.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef enum { FAILED = 0, PASSED = !FAILED} TestStatus;
@@ -193,6 +194,9 @@ int main(void)
 		SERVO_M_set_step_interval(100); //us
 	SERVO_M_start();
 		
+		STEP_M_init();
+		STEP_M_set_clock(100);
+		STEP_M_start_run();
 		printf("\n test stm32 uart \n");
 //	counter =0;//test
 	while(1)
