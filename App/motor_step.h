@@ -10,7 +10,7 @@ STK682 CONTROLER
 
 //STEP_EN PA10	//out put enable
 #define EN_PORT		GPIOA
-#define EN_PIN		GPIO_Pin_10
+#define EN_PIN		GPIO_Pin_6///10->6 clay for uart rx
 #define STEP_EN_H()	GPIO_SetBits(EN_PORT, GPIO_Pin_10)
 #define STEP_EN_L()	GPIO_ResetBits(EN_PORT, GPIO_Pin_10)
 
