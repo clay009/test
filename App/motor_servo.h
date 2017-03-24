@@ -5,6 +5,8 @@
 #ifndef SERVO_M_SERVO_H_
 #define SERVO_M_SERVO_H_ 
 
+#define SERVO_M_ID 0 //for each motor it should be different
+
 //output
 #define 	CH1_PORT		GPIOC
 #define 	CH1_PIN		GPIO_Pin_6

@@ -4,9 +4,11 @@ for AC sevor motor
 #include "stm32f10x.h"
 #include "motor_servo.h"
 #include "eval.h" //for EXI
+#include "msg_handler.h"
 
 static char SERVO_M_phase = 1;
 static bool SERVO_M_clockwise_direction = FALSE  ; // TRUE: clockwise, FALSE: anti clockwise
+
 
 void SERVO_M_IO_init(void){
 	  GPIO_InitTypeDef GPIO_InitStructure;
@@ -63,8 +65,8 @@ void SERVO_M_IO_init(void){
 //  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 //  GPIO_Init(GPIOC, &GPIO_InitStructure); 
 	//fault output int
-	STM_EVAL_PBInit(Button_KEY0, Mode_EXTI);	
-	STM_EVAL_PBInit(Button_KEY1, Mode_EXTI);	
+	STM_EVAL_PBInit(Button_KEY0, Mode_EXTI);	//for simulter 
+//	STM_EVAL_PBInit(Button_KEY1, Mode_EXTI);	
 	
 }
 
@@ -284,5 +286,6 @@ void SERVO_M_init(void){
 
 void SERVO_M_fault_out(void){
 	SERVO_M_STOP();
+	ERR_REPORT_STA =  (SERVO_M_ID << 4 )|ERR_SERVO_FAULT_OUT;
 }
 

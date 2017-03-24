@@ -28,14 +28,9 @@
 #include "motor_servo.h"
 #include "motor_step.h"
 #include "SysTickDelay.h"
+#include "msg_handler.h"
 
 
-extern u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
-//接收状态
-//bit7，接收完成标志
-//bit6，接收到0x0d
-//bit5~0，接收到的有效字节数目
-extern u8 USART_RX_STA;       //接收状态标记
 
 /** @addtogroup Template_Project
   * @{

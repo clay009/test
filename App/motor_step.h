@@ -6,6 +6,8 @@ STK682 CONTROLER
 #ifndef MOTOR_STEP_H_
 #define MOTOR_STEP_H_ 
 
+#define STEP_M_ID 1 //for each motor it should be different
+
 //STEP_EN PA10	//out put enable
 #define EN_PORT		GPIOA
 #define EN_PIN		GPIO_Pin_10

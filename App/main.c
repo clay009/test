@@ -38,6 +38,7 @@ Date : 2010.12.05
 #include <stdio.h>
 #include "motor_servo.h"
 #include "motor_step.h"
+#include "msg_handler.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef enum { FAILED = 0, PASSED = !FAILED} TestStatus;
@@ -54,12 +55,12 @@ void GPIO_Configuration(void);
 void NVIC_Configuration(void);
 void TIM3_Configuration(void);
 
-u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
-//接收状态
-//bit7，接收完成标志
-//bit6，接收到0x0d
-//bit5~0，接收到的有效字节数目
-u8 USART_RX_STA=0;       //接收状态标记
+//u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
+////接收状态
+////bit7，接收完成标志
+////bit6，接收到0x0d
+////bit5~0，接收到的有效字节数目
+//u8 USART_RX_STA=0;       //接收状态标记
 
 
 void GPIO_Configuration(void)
@@ -180,27 +181,31 @@ void Delay(vu32 nCount)
 int main(void)
 	{  
 //		int counter =0;
-	u8 t;
-	u8 len;	
-	u16 times=0; 
+//	u8 t;
+//	u8 len;	
+//	u16 times=0; 
 		
 	Init_All_Periph();
 	SysTick_Initaize();
 	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
 	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
 		
-	SERVO_M_init();
+		SERVO_M_init();
 		SERVO_M_set_clockwise(FALSE);
 		SERVO_M_set_step_interval(100); //us
-	SERVO_M_start();
+		SERVO_M_start();
 		
 		STEP_M_init();
 		STEP_M_set_clock(100);
 		STEP_M_start_run();
-		printf("\n test stm32 uart \n");
+		//read id from eeprom
+		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
 //	counter =0;//test
 	while(1)
 		{
+			msg_process();
+			STM_EVAL_LEDToggle(LED1);
+			delay_ms(200);
 //			if(counter < 3){	
 //				counter ++;			
 //				if(counter == 3){
@@ -217,34 +222,33 @@ int main(void)
 //				}
 //			}
 
-		if(USART_RX_STA&0x80)
-			{					   
-				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
-				printf("\n input :\n");
-				for(t=0;t<len;t++)
-				{
-					//USART1->DR=USART_RX_BUF[t];
-					//while((USART1->SR&0X40)==0);//等待发送结束
-					STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
-				}
-				printf("\n\n");//插入换行
-				USART_RX_STA=0;
-			}
-		else
-			{
-				times++;
-				if(times%50==0)
-					{
-						//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
-						printf(" tips: \n");
-					}
-				if(times%200==0)printf("end with the LR \n");  
-				if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
-				delay_ms(20);   
-			}
+//		if(USART_RX_STA&0x80)
+//			{					   
+//				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
+//				printf("\n input :\n");
+//				for(t=0;t<len;t++)
+//				{
+//					//USART1->DR=USART_RX_BUF[t];
+//					//while((USART1->SR&0X40)==0);//等待发送结束
+//					STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
+//				}
+//				printf("\n\n");//插入换行
+//				USART_RX_STA=0;
+//			}
+//		else
+//			{
+//				times++;
+//				if(times%50==0)
+//					{
+//						//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
+//						printf(" tips: \n");
+//					}
+//				if(times%200==0)printf("end with the CR&LR \n");  
+//				if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
+//				delay_ms(20);   
+//			}
 			
-		//STM_EVAL_LEDToggle(LED1);
-	  //  delay_ms(200);
+
 		}//while
 	}//main
 
