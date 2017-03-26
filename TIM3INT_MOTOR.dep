@@ -1,5 +1,5 @@
 Dependencies for Project 'TIM3INT', Target 'MOTOR': (DO NOT MODIFY !)
-F (.\App\main.c)(0x58D48CB6)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (.\App\main.c)(0x58D7BB9F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\stm32f10x.h)(0x4C63FDDC)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\core_cm3.h)(0x4A406E4C)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7B744)
@@ -26,12 +26,13 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_wwdg.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\SysTickDelay.h)(0x4CBC3840)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\UART_INTERFACE.h)(0x4CFAF5A0)
+I (C:\Keil\ARM\RV31\INC\stdio.h)(0x4A02846A)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7B744)
 I (D:\work\zhong\STM32_motor\App\motor_servo.h)(0x58D48B9F)
-I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D48D27)
+I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D7BBB7)
 I (D:\work\zhong\STM32_motor\App\msg_handler.h)(0x58D48B9F)
 F (.\App\stm32f10x_it.c)(0x58D48B9F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\stm32f10x_it.o --omf_browse .\obj\stm32f10x_it.crf --depend .\obj\stm32f10x_it.d)
 I (D:\work\zhong\STM32_motor\App\stm32f10x_it.h)(0x4A406E58)
@@ -61,14 +62,14 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_wwdg.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 I (D:\work\zhong\STM32_motor\App\motor_servo.h)(0x58D48B9F)
-I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D48D27)
+I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D7BBB7)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\SysTickDelay.h)(0x4CBC3840)
 I (D:\work\zhong\STM32_motor\App\msg_handler.h)(0x58D48B9F)
 F (.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.c)(0x58C7E873)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\eval.o --omf_browse .\obj\eval.crf --depend .\obj\eval.d)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\EVAL.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\stm32f10x.h)(0x4C63FDDC)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\core_cm3.h)(0x4A406E4C)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7B744)
@@ -148,9 +149,9 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_usart.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_wwdg.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x4A77FE18)
-I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7B744)
+I (C:\Keil\ARM\RV31\INC\stdio.h)(0x4A02846A)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 F (.\App\msg_handler.c)(0x58D48B9F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\msg_handler.o --omf_browse .\obj\msg_handler.crf --depend .\obj\msg_handler.d)
 I (D:\work\zhong\STM32_motor\App\stm32f10x_it.h)(0x4A406E58)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\stm32f10x.h)(0x4C63FDDC)
@@ -181,8 +182,9 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x
 I (D:\work\zhong\STM32_motor\App\msg_handler.h)(0x58D48B9F)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7B744)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\UART_INTERFACE.h)(0x4CFAF5A0)
+I (C:\Keil\ARM\RV31\INC\stdio.h)(0x4A02846A)
 F (.\App\motor_servo.c)(0x58D48B9F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\motor_servo.o --omf_browse .\obj\motor_servo.crf --depend .\obj\motor_servo.d)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\stm32f10x.h)(0x4C63FDDC)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\core_cm3.h)(0x4A406E4C)
@@ -211,7 +213,7 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\App\motor_servo.h)(0x58D48B9F)
 I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\eval.h)(0x4CBF10BE)
-I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58C8D77D)
+I (D:\work\zhong\STM32_motor\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1\ALIENTEK_MiniSTM32_EVAL.h)(0x58D7BBC7)
 I (D:\work\zhong\STM32_motor\App\msg_handler.h)(0x58D48B9F)
 F (.\App\motor_step.c)(0x58D48CAF)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\motor_step.o --omf_browse .\obj\motor_step.crf --depend .\obj\motor_step.d)
 I (D:\work\zhong\STM32_motor\LIB\CMSISV1.2.0\Core\CM3\stm32f10x.h)(0x4C63FDDC)
@@ -239,7 +241,7 @@ I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_usart.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\stm32f10x_wwdg.h)(0x4A77FE18)
 I (D:\work\zhong\STM32_motor\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc\misc.h)(0x4A77FE18)
-I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D48D27)
+I (D:\work\zhong\STM32_motor\App\motor_step.h)(0x58D7BBB7)
 F (.\App\eeprom.c)(0x58CB9DFC)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\eeprom.o --omf_browse .\obj\eeprom.crf --depend .\obj\eeprom.d)
 I (D:\work\zhong\STM32_motor\App\eeprom.h)(0x58CB9F73)
 F (.\LIB\CMSISV1.2.0\Core\CM3\core_cm3.c)(0x4A406E4C)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\App -I.\LIB\CMSISV1.2.0\Core\CM3 -I.\LIB\CMSISV1.2.0\Core\CM3\startup\arm -I.\LIB\ALIENTEK_MiniSTM32_REVB0_HardWare_V1.1 -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\src -I.\LIB\STM32F10x_StdPeriph_DriverV3.1.1\inc -I.\LIB\ALIENTEK_MiniSTM32_TFTLCD_REV1.0-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\ST\STM32F10x-DSTM32F10X_HD -o .\obj\core_cm3.o --omf_browse .\obj\core_cm3.crf --depend .\obj\core_cm3.d)

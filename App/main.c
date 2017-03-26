@@ -180,7 +180,7 @@ void Delay(vu32 nCount)
 
 int main(void)
 	{  
-//		int counter =0;
+		int counter =0;
 //	u8 t;
 //	u8 len;	
 //	u16 times=0; 
@@ -190,22 +190,30 @@ int main(void)
 	STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
 	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
 		
-		SERVO_M_init();
-		SERVO_M_set_clockwise(FALSE);
-		SERVO_M_set_step_interval(100); //us
-		SERVO_M_start();
+//		SERVO_M_init();
+//		SERVO_M_set_clockwise(FALSE);
+//		SERVO_M_set_step_interval(100); //us
+//		SERVO_M_start();
 		
 		STEP_M_init();
 		STEP_M_set_clock(100);
 		STEP_M_start_run();
-		//read id from eeprom
-		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
+		STEP_M_set_enable(TRUE);
+//		//read id from eeprom
+//		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
 //	counter =0;//test
 	while(1)
 		{
-			msg_process();
+//			msg_process();
 			STM_EVAL_LEDToggle(LED1);
-			delay_ms(200);
+			STM_EVAL_LEDToggle(LED2);
+			delay_ms(1000);
+			counter++;
+			counter &=0x07;
+//			STEP_M_set_enable(FALSE);
+//			STEP_M_set_excitation(counter);
+//			STEP_M_set_enable(TRUE);
+//			STEP_M_DECAY(counter&0x01);
 //			if(counter < 3){	
 //				counter ++;			
 //				if(counter == 3){

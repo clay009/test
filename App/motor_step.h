@@ -10,24 +10,24 @@ STK682 CONTROLER
 
 //STEP_EN PA10	//out put enable
 #define EN_PORT		GPIOA
-#define EN_PIN		GPIO_Pin_6///10->6 clay for uart rx
-#define STEP_EN_H()	GPIO_SetBits(EN_PORT, GPIO_Pin_10)
-#define STEP_EN_L()	GPIO_ResetBits(EN_PORT, GPIO_Pin_10)
+#define EN_PIN		GPIO_Pin_4///10->6 clay for uart rx ->4 NEW BOARD
+#define STEP_EN_H()	GPIO_SetBits(EN_PORT, EN_PIN)
+#define STEP_EN_L()	GPIO_ResetBits(EN_PORT, EN_PIN)
 
 //STEP_CW PA11 //forward/reverse 
 #define CW_PORT		GPIOA
-#define CW_PIN		GPIO_Pin_11
+#define CW_PIN		GPIO_Pin_5//11->5 NEW BOARD
 #define STEP_CW_H()	GPIO_SetBits(CW_PORT, CW_PIN)
 #define STEP_CW_L()	GPIO_ResetBits(CW_PORT, CW_PIN)
 
 //STEP_CLK PA12
 #define CLK_PORT	GPIOA
-#define CLK_PIN		GPIO_Pin_12
+#define CLK_PIN		GPIO_Pin_6//12->6
 #define STEP_CLK_H()	GPIO_SetBits(GPIOA, GPIO_Pin_12)
 #define STEP_CLK_L()	GPIO_ResetBits(GPIOA, GPIO_Pin_12)
 
 //M1_FDT PC9	//decay mode select
-#define FDT_PORT	GPIOC
+#define FDT_PORT	GPIOA//C
 #define FDT_PIN		GPIO_Pin_9
 #define STEP_FDT_H()	GPIO_SetBits(FDT_PORT, FDT_PIN)
 #define STEP_FDT_L()	GPIO_ResetBits(FDT_PORT, FDT_PIN)
@@ -55,6 +55,7 @@ void STEP_M_CLK_toggle(void);
 void STEP_MOT_set_clockwise(bool wise);
 void STEP_M_set_enable(bool enable);
 void STEP_M_DECAY(int fdt);
+void STEP_M_set_excitation(int mode);
 
 void STEP_M_set_clock(int us);
 void STEP_M_start_run(void);
