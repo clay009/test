@@ -20,7 +20,7 @@ STK682 CONTROLER
 #define STEP_CW_H()	GPIO_SetBits(CW_PORT, CW_PIN)
 #define STEP_CW_L()	GPIO_ResetBits(CW_PORT, CW_PIN)
 
-//STEP_CLK PA12
+//STEP_CLK PA6 ---need tim3 ch1 for pwm
 #define CLK_PORT	GPIOA
 #define CLK_PIN		GPIO_Pin_6//12->6
 #define STEP_CLK_H()	GPIO_SetBits(GPIOA, CLK_PIN)
@@ -58,6 +58,8 @@ void STEP_M_DECAY(int fdt);
 void STEP_M_set_excitation(int mode);
 
 void STEP_M_set_clock(int us);
+void STEP_M_set_peroid(int percent);
 void STEP_M_start_run(void);
+void STEP_M_stop_run(void);
 	
 #endif//MOTOR_STEP_H_

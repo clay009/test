@@ -180,7 +180,7 @@ void Delay(vu32 nCount)
 
 int main(void)
 	{  
-		int counter =0;
+//		int counter =0;
 //	u8 t;
 //	u8 len;	
 //	u16 times=0; 
@@ -197,6 +197,7 @@ int main(void)
 		
 		STEP_M_init();
 		STEP_M_set_clock(500);
+		STEP_M_set_peroid(50);
 		STEP_M_DECAY(0);
 		STEP_M_set_excitation(2);
 		STEP_MOT_set_clockwise(TRUE);
@@ -211,11 +212,11 @@ int main(void)
 			STM_EVAL_LEDToggle(LED1);
 //			STM_EVAL_LEDToggle(LED2);
 			delay_ms(1000);
-			counter++;
-			counter &=0x07;
-			STEP_M_set_enable(FALSE);
-			STEP_M_set_excitation(counter);
-			STEP_M_set_enable(TRUE);
+//			counter++;
+//			counter &=0x07;
+//			STEP_M_set_enable(FALSE);
+//			STEP_M_set_excitation(counter);
+//			STEP_M_set_enable(TRUE);
 //			STEP_M_DECAY(counter&0x01);
 //			if(counter < 3){	
 //				counter ++;			
