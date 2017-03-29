@@ -190,10 +190,10 @@ int main(void)
 	STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
 	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
 		
-//		SERVO_M_init();
-//		SERVO_M_set_clockwise(FALSE);
-//		SERVO_M_set_step_interval(100); //us
-//		SERVO_M_start();
+		SERVO_M_init();
+		SERVO_M_set_clockwise(FALSE);
+		SERVO_M_set_step_interval(100); //us
+		SERVO_M_start();
 		
 		STEP_M_init();
 		STEP_M_set_clock(500);

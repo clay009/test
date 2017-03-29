@@ -73,8 +73,8 @@ void SERVO_M_IO_init(void){
 
 void SERVO_M_set_timer_int(void){
 	NVIC_InitTypeDef NVIC_InitStructure;
-		/* Enable the TIM3 for motor0 global Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
+		/* Enable the TIM5 for motor0 global Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;  //TIM5中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
@@ -208,13 +208,13 @@ void SERVO_M_set_clockwise(bool wise){
 	SERVO_M_clockwise_direction = wise;
 }
 
-//TIM_TimeBaseInitTypeDef  TIM3_TimeBaseStructure;
-void TIM3_Configuration(int interval)
+//TIM_TimeBaseInitTypeDef  TIM5_TimeBaseStructure;
+void TIM5_Configuration(int interval)
 	{
-TIM_TimeBaseInitTypeDef  TIM3_TimeBaseStructure;
+TIM_TimeBaseInitTypeDef  TIM5_TimeBaseStructure;
 		uint16_t peroid,scaler;
-	/* TIM3 clock enable */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+	/* TIM5 clock enable */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
 			
 		
 	if ((interval > 999)){ // > 100ms
@@ -231,35 +231,35 @@ TIM_TimeBaseInitTypeDef  TIM3_TimeBaseStructure;
 		}
 	
 	/* ---------------------------------------------------------------
-	TIM3CLK 即PCLK1=36MHz
-	TIM3CLK = 36 MHz, Prescaler = 7200, TIM3 counter clock = 5K,即改变一次为5K,周期就为10K
+	TIM5CLK 即PCLK1=36MHz
+	TIM5CLK = 36 MHz, Prescaler = 7200, TIM5 counter clock = 5K,即改变一次为5K,周期就为10K
 	--------------------------------------------------------------- */
 	/* Time base configuration */
-	TIM3_TimeBaseStructure.TIM_Period = peroid; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
-	TIM3_TimeBaseStructure.TIM_Prescaler =(scaler-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
-	TIM3_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
-	TIM3_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-	TIM_TimeBaseInit(TIM3, &TIM3_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+	TIM5_TimeBaseStructure.TIM_Period = peroid; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
+	TIM5_TimeBaseStructure.TIM_Prescaler =(scaler-1); //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
+	TIM5_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
+	TIM5_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
+	TIM_TimeBaseInit(TIM5, &TIM5_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
 	
-	/* Enables the Update event for TIM3 */
-	//TIM_UpdateDisableConfig(TIM3,ENABLE); 	//使能 TIM3 更新事件 
+	/* Enables the Update event for TIM5 */
+	//TIM_UpdateDisableConfig(TIM5,ENABLE); 	//使能 TIM5 更新事件 
 	
 	/* TIM IT enable */
 	TIM_ITConfig(  //使能或者失能指定的TIM中断
-		TIM3, //TIM2
+		TIM5, //TIM2
 		TIM_IT_Update  |  //TIM 中断源
 		TIM_IT_Trigger,   //TIM 触发中断源 
 		ENABLE  //使能
 		);
 	
-	/* TIM3 enable counter */
-	//TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
+	/* TIM5 enable counter */
+	//TIM_Cmd(TIM5, ENABLE);  //使能TIMx外设
 	}
 
 
 void MOTOT_stop(void){
 	//SERVO_M_phase = 0; not change
-	TIM_Cmd(TIM3, DISABLE);
+	TIM_Cmd(TIM5, DISABLE);
 	CH1_OFF();
 	CH1N_OFF();
 	CH2_OFF();
@@ -270,18 +270,18 @@ void MOTOT_stop(void){
 }
 void SERVO_M_start(void){
 	SERVO_M_ENABLE();
-	TIM_Cmd(TIM3, ENABLE);
+	TIM_Cmd(TIM5, ENABLE);
 }
 
 void SERVO_M_set_step_interval(int us){
-	TIM3_Configuration(us);
+	TIM5_Configuration(us);
 }
 
 void SERVO_M_init(void){
 	SERVO_M_IO_init();
 	SERVO_M_set_timer_int();
 	MOTOT_stop();
-	//TIM3_Configuration();
+	//TIM5_Configuration();
 }
 
 void SERVO_M_fault_out(void){

@@ -210,7 +210,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
 		//clay STM_EVAL_LEDToggle(LED2);
-			SERVO_M_run_step();
+		//	SERVO_M_run_step(); no use, for pwm
 		}
 	}
 
@@ -226,7 +226,8 @@ void TIM5_IRQHandler(void)   //TIM3中断
 		{
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 		/* Pin PD.02 toggling with frequency = 10KHz */
-		STEP_M_CLK_toggle();
+		//STEP_M_CLK_toggle();//step motor use pwm
+			SERVO_M_run_step();
 		}
 	}
 	
