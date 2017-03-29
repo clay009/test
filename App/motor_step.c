@@ -152,12 +152,12 @@ void STEP_M_IO_init(){
   GPIO_Init(M3_PORT, &GPIO_InitStructure);
 
 	STEP_CLK_H();
-	STEP_M3_H();
-	STEP_M2_H();
-	STEP_M1_H();
-	STEP_CW_H();
-	STEP_EN_H();
-	STEP_FDT_H();
+	STEP_M3_L();
+	STEP_M2_L();
+	STEP_M1_L();
+	STEP_CW_L();
+	STEP_EN_L();
+	STEP_FDT_L();
 }
 
 

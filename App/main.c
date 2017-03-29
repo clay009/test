@@ -196,9 +196,12 @@ int main(void)
 //		SERVO_M_start();
 		
 		STEP_M_init();
-		STEP_M_set_clock(100);
-		STEP_M_start_run();
+		STEP_M_set_clock(500);
+		STEP_M_DECAY(0);
+		STEP_M_set_excitation(2);
+		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_set_enable(TRUE);
+		STEP_M_start_run();
 //		//read id from eeprom
 //		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
 //	counter =0;//test
@@ -206,13 +209,13 @@ int main(void)
 		{
 //			msg_process();
 			STM_EVAL_LEDToggle(LED1);
-			STM_EVAL_LEDToggle(LED2);
+//			STM_EVAL_LEDToggle(LED2);
 			delay_ms(1000);
 			counter++;
 			counter &=0x07;
-//			STEP_M_set_enable(FALSE);
-//			STEP_M_set_excitation(counter);
-//			STEP_M_set_enable(TRUE);
+			STEP_M_set_enable(FALSE);
+			STEP_M_set_excitation(counter);
+			STEP_M_set_enable(TRUE);
 //			STEP_M_DECAY(counter&0x01);
 //			if(counter < 3){	
 //				counter ++;			
