@@ -196,8 +196,8 @@ int main(void)
 		SERVO_M_start();
 		
 		STEP_M_init();
-		STEP_M_set_clock(500);
-		STEP_M_set_peroid(50);
+		STEP_M_set_clock(2000);
+		STEP_M_set_peroid(250);
 		STEP_M_DECAY(0);
 		STEP_M_set_excitation(2);
 		STEP_MOT_set_clockwise(TRUE);
