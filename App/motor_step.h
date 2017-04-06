@@ -27,7 +27,7 @@ STK682 CONTROLER
 #define STEP_CLK_L()	GPIO_ResetBits(CLK_PORT, CLK_PIN)
 
 //M1_FDT PC9	//decay mode select
-#define FDT_PORT	GPIOA//C
+#define FDT_PORT	GPIOC//C--> A demo boar ,C for test only
 #define FDT_PIN		GPIO_Pin_9
 #define STEP_FDT_H()	GPIO_SetBits(FDT_PORT, FDT_PIN)
 #define STEP_FDT_L()	GPIO_ResetBits(FDT_PORT, FDT_PIN)
@@ -57,7 +57,7 @@ void STEP_M_set_enable(bool enable);
 void STEP_M_DECAY(int fdt);
 void STEP_M_set_excitation(int mode);
 
-void STEP_M_set_clock(int us);
+void STEP_M_set_clock(uint16_t us);
 void STEP_M_set_peroid(int percent);
 void STEP_M_start_run(void);
 void STEP_M_stop_run(void);

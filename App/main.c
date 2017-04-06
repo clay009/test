@@ -148,7 +148,7 @@ void Init_All_Periph(void)
 	
 		//SERVO_M_init();
 	//USART1_Configuration();
-	USART_Configuration(115200);
+	USART_Configuration(115200);//115200 9600
 	USART_RX_IntteruptEnable(USED_COM_NUMBER);		//接收中断使能
 	
 	//TIM3_Configuration();
@@ -176,13 +176,35 @@ void Delay(vu32 nCount)
 //	for(; nCount != 0; nCount--);
 //	}
 
+	u8 KEY_Scan(void)
+	{	 
+	static u8 key_up=1;//按键按松开标志	
+	if(key_up&&((STM_EVAL_PBGetState(Button_KEY1) == 0x00)||(STM_EVAL_PBGetState(Button_WAKEUP) == 0x01)))
+		{
+		delay_ms(10);//去抖动 
+		key_up=0;
 
+		if (STM_EVAL_PBGetState(Button_KEY1) == 0x00)		//按键按下:低电平有效
+			{
+			return 2;
+			}
+		if (STM_EVAL_PBGetState(Button_WAKEUP) == 0x01)		//按键按下:高电平有效
+			{
+			return 3;
+			}
+		}
+		else if((STM_EVAL_PBGetState(Button_KEY1) == 0x01)&&(STM_EVAL_PBGetState(Button_WAKEUP) == 0x00)) key_up=1; 	    
+	return 0;// 无按键按下
+	}
 
+#define MAX 50*1000 //50*1000--10Hz
+#define MIN 	5   //50 10K
+#define STEP  1
 int main(void)
 	{  
-//		int counter =0;
-//	u8 t;
-//	u8 len;	
+		uint16_t counter = 0;
+		u8 Key_Vlaue; 
+//	u8 len=0;	
 //	u16 times=0; 
 		
 	Init_All_Periph();
@@ -194,24 +216,55 @@ int main(void)
 		SERVO_M_set_clockwise(FALSE);
 		SERVO_M_set_step_interval(100); //us
 		SERVO_M_start();
-		
+//		
 		STEP_M_init();
-		STEP_M_set_clock(2000);
-		STEP_M_set_peroid(250);
+		STEP_M_set_clock(MIN);
+		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_DECAY(0);
 		STEP_M_set_excitation(2);
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_set_enable(TRUE);
 		STEP_M_start_run();
 //		//read id from eeprom
-//		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
-//	counter =0;//test
+		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
+	STM_EVAL_PBInit(Button_WAKEUP,Mode_GPIO);
+	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
+	
 	while(1)
 		{
+			Key_Vlaue=KEY_Scan();//得到键值
+			if(Key_Vlaue)
+				{						   
+				switch(Key_Vlaue)
+					{				 
+					case 1://for servo motor int
+						//STM_EVAL_LEDToggle(LED1);
+						break;
+					case 2:
+						STM_EVAL_LEDToggle(LED1);
+						STEP_M_stop_run();
+						if( MIN+STEP*counter < MAX)
+							counter++;
+						STEP_M_set_clock(MIN+STEP*counter);						
+						STEP_M_start_run();
+						break;
+					case 3:				//wakeup
+						//STM_EVAL_LEDToggle(LED1);
+						STM_EVAL_LEDToggle(LED2);
+						STEP_M_stop_run();
+					  if(counter>0)
+							counter --;
+						STEP_M_set_clock(MIN+STEP*counter);					
+						STEP_M_start_run();
+						break;
+					}
+					
+					printf("\n counter = %d",counter);
+				} 
 //			msg_process();
-			STM_EVAL_LEDToggle(LED1);
-//			STM_EVAL_LEDToggle(LED2);
-			delay_ms(1000);
+//			STM_EVAL_LEDToggle(LED1);
+////			STM_EVAL_LEDToggle(LED2);
+//			delay_ms(1000);
 //			counter++;
 //			counter &=0x07;
 //			STEP_M_set_enable(FALSE);

@@ -5,15 +5,15 @@
 //excitation setting //default state at start-up/reset
 M3/s2	M2/s3	M1/s4	MODE_exciation
 L			L			L		2 PHASE
-//div1,200
+//div1,200 ,10~617HZ (800)
 L			L			H		1-2PHASE
-//div2,400
+//div2,400   ~2.38K (200~300)
 L			H			L		W1-2
-//div4,800
+//div4,800    4.545k (100)
 L			H			H		2W1-2
-//div8,1600
+//div8,1600 ~9.8k (50)
 H			L			L		4W1-2
-//div16,3200
+//div16,3200 ~16k (30)
 H			L			H		8W1-2
 //div32,6400
 H			H			L		16W1-2
@@ -69,22 +69,23 @@ void STEP_M_set_excitation(int mode){
 	}
 }
 
-static int counter = 0;
+static int plus_counter = 0;
 /*	CLK pin step signal iputt allows advancing excitation step 
 VCC == H 
 CLK rasing edge : excitation step feed
 CLK failing	edge:	excitation step hold
 */
 void STEP_M_CLK_toggle(void){
-	//GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];		//取反输出寄存器数据
-	if(counter < 12800*2){ //must even
+//	//GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];		//取反输出寄存器数据
+//	if(plus_counter > 1 )
+		{ //must even
 	GPIOA->ODR ^= GPIO_Pin_12;//test
 	CLK_PORT->ODR ^= CLK_PIN;
-		counter++;
+		plus_counter++;
 	}
-	else{
-		STM_EVAL_LEDOn(1);//LED2
-	}
+//	else{
+//		STM_EVAL_LEDOn(1);//LED2
+//	}
 }
 
 /* CW/CCW 
@@ -184,7 +185,7 @@ void STEP_M_IO_init(){
 
 //static int bak_peroid =100;
 
-void TIM_Configuration(int interval)
+void TIM_Configuration(uint16_t interval)
 	{
 		TIM_TimeBaseInitTypeDef  TIM3_TimeBaseStructure;
 //		TIM_OCInitTypeDef  TIM_OCInitStructure;
@@ -273,9 +274,9 @@ void STEP_M_timer_init(void){
 }
 
 // 0~15k : max ~ 66/2us , 65535->7Hz ,33->14.5kHz
-void STEP_M_set_clock(int us){
-//	TIM_Configuration(us);
-	TIM_Configuration(32768);
+void STEP_M_set_clock(uint16_t us){
+	TIM_Configuration(us);
+//	TIM_Configuration(32768);
 }
 void STEP_M_set_peroid(int percent){
 	
