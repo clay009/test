@@ -197,9 +197,9 @@ void Delay(vu32 nCount)
 	return 0;// 无按键按下
 	}
 
-#define MAX 50*1000 //50*1000--10Hz
-#define MIN 	5   //50 10K
-#define STEP  1
+#define SLOW 600 //50*1000--10Hz
+#define FAST 	100   //50 10K
+#define GAP  10
 int main(void)
 	{  
 		uint16_t counter = 0;
@@ -218,7 +218,7 @@ int main(void)
 		SERVO_M_start();
 //		
 		STEP_M_init();
-		STEP_M_set_clock(MIN);
+		STEP_M_set_clock(	SLOW);
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_DECAY(0);
 		STEP_M_set_excitation(2);
@@ -243,9 +243,9 @@ int main(void)
 					case 2:
 						STM_EVAL_LEDToggle(LED1);
 						STEP_M_stop_run();
-						if( MIN+STEP*counter < MAX)
-							counter++;
-						STEP_M_set_clock(MIN+STEP*counter);						
+						if( SLOW - GAP*counter > FAST)
+							counter ++ ;
+						STEP_M_set_clock(SLOW - GAP*counter);						
 						STEP_M_start_run();
 						break;
 					case 3:				//wakeup
@@ -254,7 +254,7 @@ int main(void)
 						STEP_M_stop_run();
 					  if(counter>0)
 							counter --;
-						STEP_M_set_clock(MIN+STEP*counter);					
+						STEP_M_set_clock(SLOW - GAP*counter);					
 						STEP_M_start_run();
 						break;
 					}

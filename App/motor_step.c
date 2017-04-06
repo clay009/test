@@ -20,6 +20,12 @@ H			H			L		16W1-2
 //div64,12800
 H			H			H		32W1-2
 //div128, 25600 0~15k : max ~ 66/2us , 65535->7Hz ,33->14.5kHz
+
+for mode  L			H			L		W1-2 //div4,800    4.545k (100)
+#define SLOW 600 //50*1000--10Hz
+#define FAST 	100   //50 10K
+#define GAP  10 
+STEP = (SLOW -FAST)/GAP = 50
 */
 
 void STEP_M_set_excitation(int mode){
@@ -69,7 +75,7 @@ void STEP_M_set_excitation(int mode){
 	}
 }
 
-static int plus_counter = 0;
+static int plus_counter = 8000*4; //PLUS = plus_counter/2
 /*	CLK pin step signal iputt allows advancing excitation step 
 VCC == H 
 CLK rasing edge : excitation step feed
@@ -77,11 +83,11 @@ CLK failing	edge:	excitation step hold
 */
 void STEP_M_CLK_toggle(void){
 //	//GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];		//取反输出寄存器数据
-//	if(plus_counter > 1 )
+	if(plus_counter > 0 )
 		{ //must even
-	GPIOA->ODR ^= GPIO_Pin_12;//test
-	CLK_PORT->ODR ^= CLK_PIN;
-		plus_counter++;
+		GPIOA->ODR ^= GPIO_Pin_12;//test
+		CLK_PORT->ODR ^= CLK_PIN;
+		plus_counter--;
 	}
 //	else{
 //		STM_EVAL_LEDOn(1);//LED2
