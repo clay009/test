@@ -3,15 +3,23 @@
 
 /*
 //excitation setting //default state at start-up/reset
-M3	M2	M1	MODE_exciation
-L		L		L		2 PHASE
-L		L		H		1-2PHASE
-L		H		L		W1-2
-L		H		H		2W1-2
-H		L		L		4W1-2
-H		L		H		8W1-2
-H		H		L		16W1-2
-H		H		H		32W1-2
+M3/s2	M2/s3	M1/s4	MODE_exciation
+L			L			L		2 PHASE
+//div1,200
+L			L			H		1-2PHASE
+//div2,400
+L			H			L		W1-2
+//div4,800
+L			H			H		2W1-2
+//div8,1600
+H			L			L		4W1-2
+//div16,3200
+H			L			H		8W1-2
+//div32,6400
+H			H			L		16W1-2
+//div64,12800
+H			H			H		32W1-2
+//div128, 25600 0~15k : max ~ 66/2us , 65535->7Hz ,33->14.5kHz
 */
 
 void STEP_M_set_excitation(int mode){
@@ -61,6 +69,7 @@ void STEP_M_set_excitation(int mode){
 	}
 }
 
+static int counter = 0;
 /*	CLK pin step signal iputt allows advancing excitation step 
 VCC == H 
 CLK rasing edge : excitation step feed
@@ -68,8 +77,14 @@ CLK failing	edge:	excitation step hold
 */
 void STEP_M_CLK_toggle(void){
 	//GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];		//取反输出寄存器数据
-	//GPIOA->ODR ^= GPIO_Pin_12;
+	if(counter < 12800*2){ //must even
+	GPIOA->ODR ^= GPIO_Pin_12;//test
 	CLK_PORT->ODR ^= CLK_PIN;
+		counter++;
+	}
+	else{
+		STM_EVAL_LEDOn(1);//LED2
+	}
 }
 
 /* CW/CCW 
@@ -152,7 +167,7 @@ void STEP_M_IO_init(){
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(M3_PORT, &GPIO_InitStructure);
 
-	STEP_CLK_H();
+	STEP_CLK_L();//default for rasing edge  	
 	STEP_M3_L();
 	STEP_M2_L();
 	STEP_M1_L();
@@ -160,7 +175,11 @@ void STEP_M_IO_init(){
 	STEP_EN_L();
 	STEP_FDT_L();
 	
-
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12; //test
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;//GPIO_Mode_AF_PP;  //复用推挽输出
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_12);
 }
 
 //static int bak_peroid =100;
@@ -253,8 +272,10 @@ void STEP_M_timer_init(void){
 
 }
 
+// 0~15k : max ~ 66/2us , 65535->7Hz ,33->14.5kHz
 void STEP_M_set_clock(int us){
-	TIM_Configuration(us);
+//	TIM_Configuration(us);
+	TIM_Configuration(32768);
 }
 void STEP_M_set_peroid(int percent){
 	

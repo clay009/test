@@ -23,8 +23,8 @@ STK682 CONTROLER
 //STEP_CLK PA6 ---need tim3 ch1 for pwm
 #define CLK_PORT	GPIOA
 #define CLK_PIN		GPIO_Pin_6//12->6
-#define STEP_CLK_H()	GPIO_SetBits(GPIOA, CLK_PIN)
-#define STEP_CLK_L()	GPIO_ResetBits(GPIOA, CLK_PIN)
+#define STEP_CLK_H()	GPIO_SetBits(CLK_PORT, CLK_PIN)
+#define STEP_CLK_L()	GPIO_ResetBits(CLK_PORT, CLK_PIN)
 
 //M1_FDT PC9	//decay mode select
 #define FDT_PORT	GPIOA//C
