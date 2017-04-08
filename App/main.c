@@ -197,7 +197,7 @@ void Delay(vu32 nCount)
 	return 0;// 无按键按下
 	}
 
-#define SLOW 600 //50*1000--10Hz
+#define SLOW 600//600 //50*1000--10Hz
 #define FAST 	100   //50 10K
 #define GAP  10
 int main(void)
@@ -218,12 +218,12 @@ int main(void)
 		SERVO_M_start();
 //		
 		STEP_M_init();
-		STEP_M_set_excitation(3);//div 8
+		STEP_M_set_excitation(3);//div 8 --24000
 		STEP_M_set_clock(SLOW); //speed
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_reset_counter();
-		STEP_M_set_plus_num_per_circle(8000);// uint_16 65536
-		STEP_M_set_target_position(3, 100);
+		STEP_M_set_plus_num_per_circle(24000);// uint_16 65536
+		STEP_M_set_target_position(1, 12000);
 		
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_DECAY(0);
@@ -236,7 +236,7 @@ int main(void)
 	
 	while(1)
 		{
-			printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
+			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 			
 			Key_Vlaue=KEY_Scan();//得到键值
 			if(Key_Vlaue)
