@@ -26,7 +26,7 @@ extern u8 ERR_REPORT_STA;
 #define MSG_SPILT "#"
 #define MSG_PARAMETER	"@"
 
-#define STR_SET_SPEED	"SET_SPEED"
+//#define STR_SET_SPEED	"SET_SPEED"
 
 extern u8 USART_RX_BUF[64];     //接收缓冲,最大64个字节.
 //接收状态

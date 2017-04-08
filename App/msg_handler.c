@@ -37,7 +37,7 @@ void cmd_process(void){
 	pfun = p;
 	if(p){//
 		DEBUG("\n get function : %s",p);
-		if(0 == strcmp(p,STR_SET_SPEED)){ //SET_SPEED#ID@XX#AXIS@XX#SPEED@XXX
+		if(0 == strcmp(p,"SET_SPEED")){ //SET_SPEED#ID@XX#AXIS@XX#SPEED@XXX
 			p = strtok(NULL, MSG_SPILT);
 			if(p){//"ID@01"
 				DEBUG("\n get ID =%s",(p+3));
@@ -46,7 +46,7 @@ void cmd_process(void){
 					DEBUG("\n get ID =%s",(p+5));
 					p = strtok(NULL, MSG_SPILT);
 					if(p){
-						DEBUG("\n get SPEED =%s",(p+6));
+						DEBUG("\n get SPEED =%s",(p+6));//SPEED@
 						value = (int)strtol((p+6), &ptmp,10);//10:oct, 16:hex ...
 						DEBUG("\n parse SPEED  value =%d",value);
 						STEP_M_stop_run();
@@ -64,6 +64,32 @@ void cmd_process(void){
 			{
 				goto STEP_M_CMD_ERR;//id
 			}
+		}
+		else if(0 == strcmp(p,"SET_LOGIC_POS")){//SET_LOGIC_POS#ID@XX#AXIS@XX#POS@XXX
+						p = strtok(NULL, MSG_SPILT);
+						if(p){//"ID@01"
+							DEBUG("\n get ID =%s",(p+3));
+							p = strtok(NULL, MSG_SPILT);
+							if(p){//AXIS@2
+								DEBUG("\n get ID =%s",(p+5));
+								p = strtok(NULL, MSG_SPILT);
+								if(p){
+									DEBUG("\n get POS =%s",(p+4));//POS@
+									value = (int)strtol((p+4), &ptmp,10);//10:oct, 16:hex ...
+									DEBUG("\n parse POS  value =%d, circle=%d, phase=%d",value,value/400,value%400);
+									STEP_M_set_actual_position(value);						
+									goto STEP_M_CMD_SUCC;
+								}
+								else 
+									goto STEP_M_CMD_ERR;//speed value 
+							}
+							else 
+								goto STEP_M_CMD_ERR;//axis
+						}
+						else
+						{
+							goto STEP_M_CMD_ERR;//id
+						}
 		}
 		else
 			goto STEP_M_CMD_ERR;//function

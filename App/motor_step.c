@@ -328,6 +328,7 @@ void STEP_M_reset_counter(){
 //	current_phase = 0 ;
 	plus_counter = 0	;
 }
+
 void STEP_M_set_target_position(uint16_t circle, uint16_t phase){
 	target_circle = circle ;
 	target_phase = phase ;
@@ -337,6 +338,10 @@ void STEP_M_set_target_position(uint16_t circle, uint16_t phase){
 		plus_counter = target_phase * 2;//for timer interrupt 2times just one plus
 	else
 		plus_counter = plus_per_circle * 2;//for timer interrupt 2times just one plus
+}
+
+void STEP_M_set_actual_position(uint32_t pos){
+	STEP_M_set_target_position(pos/plus_per_circle, pos%plus_per_circle);
 }
 
 void STEP_M_run_step(void){//call in timer interrupt 

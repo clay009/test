@@ -74,6 +74,7 @@ void STEP_M_stop_run(void);
 void STEP_M_run_step(void);
 void STEP_M_reset_counter(void);
 void STEP_M_set_target_position(uint16_t circle, uint16_t phase);
+	void STEP_M_set_actual_position(uint32_t pos);
 void STEP_M_set_plus_num_per_circle(uint16_t num);
 uint16_t STEP_M_get_uncompleted_circle(void);
 
