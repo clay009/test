@@ -2,14 +2,15 @@
 #include "motor_step.h"
 
 static char div_mode = 0; //excitation mode
-static int plus_counter = 8000*4; //PLUS = plus_counter/2
+/*volatile*/static int plus_counter = 8000*4; //PLUS = plus_counter/2
 static uint16_t plus_per_circle = 0;
 //target position set by host
 static uint16_t target_circle = 0; //count in plus number
 static uint16_t target_phase = 0;
 //motor current position , the plus number had sent
-static uint16_t current_circle = 0; //count in plus number
+/*static*/ uint16_t current_circle = 0; //count in plus number
 //static uint16_t current_phase = 0;
+STEP_M_STATUS run_status = M_USR_STOP ;// 0: run , 1, stop by command , 2, stop when run to position
 
 /*
 //excitation setting //default state at start-up/reset
@@ -303,10 +304,12 @@ void STEP_M_set_peroid(int percent){
 	//TIM_SetCompare1(TIM3,bak_peroid*percent/100); 
 }
 void STEP_M_start_run(void){
+	run_status = M_RUN ;
 	TIM_Cmd(TIM3, ENABLE); 
 }
 
 void STEP_M_stop_run(void){
+	run_status = M_USR_STOP;
 	TIM_Cmd(TIM3, DISABLE);
 }
 void STEP_M_init(void){
@@ -315,7 +318,7 @@ void STEP_M_init(void){
 }
 
 void STEP_M_set_plus_num_per_circle(uint16_t num){
-	if(div_mode == 0)
+	if(div_mode == 0)  //TODO GET FROM div_mode
 		plus_per_circle = num;
 	plus_per_circle = num;
 }
@@ -330,35 +333,54 @@ void STEP_M_set_target_position(uint16_t circle, uint16_t phase){
 	target_phase = phase ;
 	current_circle = target_circle;
 //	current_phase = target_phase;
-	plus_counter = plus_per_circle * 2;
+	if(current_circle == 0)
+		plus_counter = target_phase * 2;//for timer interrupt 2times just one plus
+	else
+		plus_counter = plus_per_circle * 2;//for timer interrupt 2times just one plus
 }
 
 void STEP_M_run_step(void){//call in timer interrupt 
+
+//		TEST_CLK();
+//		STEP_CLK_TOGGLE();
+
 	if((current_circle > 0)&&(plus_counter > 0)){
-		TEST_CLK();
-		STEP_CLK_TOGGLE();
-		plus_counter--;
-		if(plus_counter <= 0){
-			current_circle--;
-			
-			if(current_circle > 0){
-				plus_counter = plus_per_circle *2;// 
-				STM_EVAL_LEDOn(0);
-			}else{
-				plus_counter = target_phase *2;
-				STM_EVAL_LEDOn(1);
-			}		
-		}else{
-			if((current_circle <= 0)&&((plus_counter > 0))){
-						TEST_CLK();
-						STEP_CLK_TOGGLE();
-						plus_counter--;
-			}
-			else{
-				//arrive target position , do nothing
-				STM_EVAL_LEDOff(0);
-				STM_EVAL_LEDOn(1);
+			TEST_CLK();
+			STEP_CLK_TOGGLE();
+			plus_counter--;
+			if(plus_counter <= 0){
+				current_circle--;
+				if(current_circle > 0){
+						plus_counter = plus_per_circle *2;// //for timer interrupt 2times just one plus
+						//STM_EVAL_LEDOn(0);
+					}
+					else{
+						plus_counter = target_phase *2;//for timer interrupt 2times just one plus
+						//STM_EVAL_LEDOn(1);
+					}		
 				}
-		}
 	}
+	else{
+					if((current_circle <= 0)&&((plus_counter > 0))){
+								TEST_CLK();
+								STEP_CLK_TOGGLE();
+								plus_counter--;
+					}
+					else{
+							//arrive target position , do nothing
+							STEP_M_stop_run();
+							run_status = M_ARRIVED_STOP;
+							//STM_EVAL_LEDOff(0);
+							//STM_EVAL_LEDOn(1);
+					}
+	}	
 }
+
+uint16_t STEP_M_get_uncompleted_circle(void){
+	return current_circle;
+}
+
+//debug only , it change quickly
+//uint16_t STEP_M_get_uncompleted_phase(void){
+//	return plus_counter;
+//}

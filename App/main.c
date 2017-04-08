@@ -222,8 +222,8 @@ int main(void)
 		STEP_M_set_clock(SLOW); //speed
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_reset_counter();
-		STEP_M_set_plus_num_per_circle(8000*2);
-		STEP_M_set_target_position(0, 8000);
+		STEP_M_set_plus_num_per_circle(8000);// uint_16 65536
+		STEP_M_set_target_position(3, 100);
 		
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_DECAY(0);
@@ -236,6 +236,8 @@ int main(void)
 	
 	while(1)
 		{
+			printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
+			
 			Key_Vlaue=KEY_Scan();//µÃµ½¼üÖµ
 			if(Key_Vlaue)
 				{						   

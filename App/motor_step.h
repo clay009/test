@@ -52,6 +52,14 @@ STK682 CONTROLER
 #define STEP_M3_H()	GPIO_SetBits(M3_PORT, M3_PIN)
 #define STEP_M3_L()	GPIO_ResetBits(M3_PORT, M3_PIN)
 
+typedef enum 
+	{
+	M_RUN = 0,
+	M_USR_STOP = 1,
+	M_ARRIVED_STOP = 2
+	} STEP_M_STATUS;
+extern STEP_M_STATUS run_status;
+
 void STEP_M_init(void);
 //void STEP_M_CLK_toggle(void);
 void STEP_MOT_set_clockwise(bool wise);
@@ -67,5 +75,7 @@ void STEP_M_run_step(void);
 void STEP_M_reset_counter(void);
 void STEP_M_set_target_position(uint16_t circle, uint16_t phase);
 void STEP_M_set_plus_num_per_circle(uint16_t num);
+uint16_t STEP_M_get_uncompleted_circle(void);
+
 	
 #endif//MOTOR_STEP_H_
