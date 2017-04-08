@@ -91,6 +91,32 @@ void cmd_process(void){
 							goto STEP_M_CMD_ERR;//id
 						}
 		}
+		else if(0 == strcmp(p,"SET_CIRCLE")){//SET_CIRCLE#ID@XX#AXIS@XX#NUM@XXX
+						p = strtok(NULL, MSG_SPILT);
+						if(p){//"ID@01"
+							DEBUG("\n get ID =%s",(p+3));
+							p = strtok(NULL, MSG_SPILT);
+							if(p){//AXIS@2
+								DEBUG("\n get ID =%s",(p+5));
+								p = strtok(NULL, MSG_SPILT);
+								if(p){
+									DEBUG("\n get plus per circle  =%s",(p+4));//NUM@
+									value = (int)strtol((p+4), &ptmp,10);//10:oct, 16:hex ...
+									DEBUG("\n parse plus per circle value =%d, ",value);
+									STEP_M_set_plus_num_per_circle(value);						
+									goto STEP_M_CMD_SUCC;
+								}
+								else 
+									goto STEP_M_CMD_ERR;//speed value 
+							}
+							else 
+								goto STEP_M_CMD_ERR;//axis
+						}
+						else
+						{
+							goto STEP_M_CMD_ERR;//id
+						}
+		}
 		else
 			goto STEP_M_CMD_ERR;//function
 	}
