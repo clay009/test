@@ -237,7 +237,8 @@ int main(void)
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
-			
+			msg_process();
+			delay_ms(500);			
 			Key_Vlaue=KEY_Scan();//µÃµ½¼üÖµ
 			if(Key_Vlaue)
 				{						   
@@ -265,7 +266,7 @@ int main(void)
 						break;
 					}
 					
-					printf("\n counter = %d",counter);
+					DEBUG("\n counter = %d",counter);
 				} 
 //			msg_process();
 //			STM_EVAL_LEDToggle(LED1);
