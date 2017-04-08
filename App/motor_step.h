@@ -25,6 +25,8 @@ STK682 CONTROLER
 #define CLK_PIN		GPIO_Pin_6//12->6
 #define STEP_CLK_H()	GPIO_SetBits(CLK_PORT, CLK_PIN)
 #define STEP_CLK_L()	GPIO_ResetBits(CLK_PORT, CLK_PIN)
+#define STEP_CLK_TOGGLE() CLK_PORT->ODR ^= CLK_PIN
+#define TEST_CLK()  GPIOA->ODR ^= GPIO_Pin_12
 
 //M1_FDT PC9	//decay mode select
 #define FDT_PORT	GPIOC//C--> A demo boar ,C for test only
@@ -51,15 +53,19 @@ STK682 CONTROLER
 #define STEP_M3_L()	GPIO_ResetBits(M3_PORT, M3_PIN)
 
 void STEP_M_init(void);
-void STEP_M_CLK_toggle(void);
+//void STEP_M_CLK_toggle(void);
 void STEP_MOT_set_clockwise(bool wise);
 void STEP_M_set_enable(bool enable);
-void STEP_M_DECAY(int fdt);
-void STEP_M_set_excitation(int mode);
+void STEP_M_DECAY(char fdt);
+void STEP_M_set_excitation(char mode);
 
 void STEP_M_set_clock(uint16_t us);
 void STEP_M_set_peroid(int percent);
 void STEP_M_start_run(void);
 void STEP_M_stop_run(void);
+void STEP_M_run_step(void);
+void STEP_M_reset_counter(void);
+void STEP_M_set_target_position(uint16_t circle, uint16_t phase);
+void STEP_M_set_plus_num_per_circle(uint16_t num);
 	
 #endif//MOTOR_STEP_H_

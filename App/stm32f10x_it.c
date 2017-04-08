@@ -211,7 +211,7 @@ void TIM3_IRQHandler(void)   //TIM3ÖÐ¶Ï
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
 		//clay STM_EVAL_LEDToggle(LED2);
 			//SERVO_M_run_step(); //no use, for pwm
-			STEP_M_CLK_toggle();
+			STEP_M_run_step();//STEP_M_CLK_toggle();
 		}
 	}
 

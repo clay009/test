@@ -218,11 +218,15 @@ int main(void)
 		SERVO_M_start();
 //		
 		STEP_M_init();
-		STEP_M_set_clock(	SLOW);
+		STEP_M_set_excitation(3);//div 8
+		STEP_M_set_clock(SLOW); //speed
 		//STEP_M_set_peroid(250);//just for hw pwm
-		STEP_M_DECAY(0);
-		STEP_M_set_excitation(2);
+		STEP_M_reset_counter();
+		STEP_M_set_plus_num_per_circle(8000*2);
+		STEP_M_set_target_position(0, 8000);
+		
 		STEP_MOT_set_clockwise(TRUE);
+		STEP_M_DECAY(0);
 		STEP_M_set_enable(TRUE);
 		STEP_M_start_run();
 //		//read id from eeprom

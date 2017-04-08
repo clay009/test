@@ -1,6 +1,16 @@
 #include "stm32f10x.h"
 #include "motor_step.h"
 
+static char div_mode = 0; //excitation mode
+static int plus_counter = 8000*4; //PLUS = plus_counter/2
+static uint16_t plus_per_circle = 0;
+//target position set by host
+static uint16_t target_circle = 0; //count in plus number
+static uint16_t target_phase = 0;
+//motor current position , the plus number had sent
+static uint16_t current_circle = 0; //count in plus number
+//static uint16_t current_phase = 0;
+
 /*
 //excitation setting //default state at start-up/reset
 M3/s2	M2/s3	M1/s4	MODE_exciation
@@ -28,7 +38,8 @@ for mode  L			H			L		W1-2 //div4,800    4.545k (100)
 STEP = (SLOW -FAST)/GAP = 50
 */
 
-void STEP_M_set_excitation(int mode){
+void STEP_M_set_excitation(char mode){
+	div_mode = mode;
 	switch(mode){
 		case 0:
 			STEP_M3_L();
@@ -71,11 +82,12 @@ void STEP_M_set_excitation(int mode){
 			STEP_M1_H();
 			break;
 		default:
+			div_mode = 0;
 		break;
 	}
 }
 
-static int plus_counter = 8000*4; //PLUS = plus_counter/2
+
 /*	CLK pin step signal iputt allows advancing excitation step 
 VCC == H 
 CLK rasing edge : excitation step feed
@@ -83,11 +95,13 @@ CLK failing	edge:	excitation step hold
 */
 void STEP_M_CLK_toggle(void){
 //	//GPIO_PORT[Led]->ODR ^= GPIO_PIN[Led];		//取反输出寄存器数据
-	if(plus_counter > 0 )
+//	if(plus_counter > 0 )
 		{ //must even
-		GPIOA->ODR ^= GPIO_Pin_12;//test
-		CLK_PORT->ODR ^= CLK_PIN;
-		plus_counter--;
+		//GPIOA->ODR ^= GPIO_Pin_12;//test
+			TEST_CLK();
+		//CLK_PORT->ODR ^= CLK_PIN;
+			STEP_CLK_TOGGLE();
+		//plus_counter--;
 	}
 //	else{
 //		STM_EVAL_LEDOn(1);//LED2
@@ -126,7 +140,7 @@ FDT
 1.1V~3.1V OR OPEN : MIXED DECAY
 <0.8V	FAST DECAY
 */
-void STEP_M_DECAY(int fdt){
+void STEP_M_DECAY(char fdt){
 	if(fdt ==0)
 		STEP_FDT_L();
 	else
@@ -300,3 +314,51 @@ void STEP_M_init(void){
 	STEP_M_timer_init();
 }
 
+void STEP_M_set_plus_num_per_circle(uint16_t num){
+	if(div_mode == 0)
+		plus_per_circle = num;
+	plus_per_circle = num;
+}
+
+void STEP_M_reset_counter(){
+	current_circle = 0 ;
+//	current_phase = 0 ;
+	plus_counter = 0	;
+}
+void STEP_M_set_target_position(uint16_t circle, uint16_t phase){
+	target_circle = circle ;
+	target_phase = phase ;
+	current_circle = target_circle;
+//	current_phase = target_phase;
+	plus_counter = plus_per_circle * 2;
+}
+
+void STEP_M_run_step(void){//call in timer interrupt 
+	if((current_circle > 0)&&(plus_counter > 0)){
+		TEST_CLK();
+		STEP_CLK_TOGGLE();
+		plus_counter--;
+		if(plus_counter <= 0){
+			current_circle--;
+			
+			if(current_circle > 0){
+				plus_counter = plus_per_circle *2;// 
+				STM_EVAL_LEDOn(0);
+			}else{
+				plus_counter = target_phase *2;
+				STM_EVAL_LEDOn(1);
+			}		
+		}else{
+			if((current_circle <= 0)&&((plus_counter > 0))){
+						TEST_CLK();
+						STEP_CLK_TOGGLE();
+						plus_counter--;
+			}
+			else{
+				//arrive target position , do nothing
+				STM_EVAL_LEDOff(0);
+				STM_EVAL_LEDOn(1);
+				}
+		}
+	}
+}
