@@ -199,7 +199,7 @@ void Delay(vu32 nCount)
 
 #define SLOW 600//600 //50*1000--10Hz
 #define FAST 	100   //50 10K
-#define GAP  10
+#define GAP  50
 int main(void)
 	{  
 		uint16_t counter = 0;
@@ -223,7 +223,7 @@ int main(void)
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_reset_counter();
 		STEP_M_set_plus_num_per_circle(24000);// uint_16 65536
-		STEP_M_set_target_position(1, 12000);
+		STEP_M_set_target_position(10000, 12000);
 		
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_DECAY(0);
@@ -238,7 +238,7 @@ int main(void)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 			msg_process();
-			delay_ms(500);			
+			delay_ms(50);			
 			Key_Vlaue=KEY_Scan();//得到键值
 			if(Key_Vlaue)
 				{						   
@@ -247,9 +247,9 @@ int main(void)
 					case 1://for servo motor int
 						//STM_EVAL_LEDToggle(LED1);
 						break;
-					case 2:
+					case 2: //KEY 1
 						STM_EVAL_LEDToggle(LED1);
-						STEP_M_stop_run();
+						//STEP_M_stop_run();//NO NEED
 						if( SLOW - GAP*counter > FAST)
 							counter ++ ;
 						STEP_M_set_clock(SLOW - GAP*counter);						
@@ -258,7 +258,7 @@ int main(void)
 					case 3:				//wakeup
 						//STM_EVAL_LEDToggle(LED1);
 						STM_EVAL_LEDToggle(LED2);
-						STEP_M_stop_run();
+						//STEP_M_stop_run();//NO NEED
 					  if(counter>0)
 							counter --;
 						STEP_M_set_clock(SLOW - GAP*counter);					
@@ -268,57 +268,6 @@ int main(void)
 					
 					DEBUG("\n counter = %d",counter);
 				} 
-//			msg_process();
-//			STM_EVAL_LEDToggle(LED1);
-////			STM_EVAL_LEDToggle(LED2);
-//			delay_ms(1000);
-//			counter++;
-//			counter &=0x07;
-//			STEP_M_set_enable(FALSE);
-//			STEP_M_set_excitation(counter);
-//			STEP_M_set_enable(TRUE);
-//			STEP_M_DECAY(counter&0x01);
-//			if(counter < 3){	
-//				counter ++;			
-//				if(counter == 3){
-//					STM_EVAL_LEDToggle(LED2);
-//					MOTOT_stop();
-//				}				
-//			}
-//			else{
-//				counter ++;	
-//				if(counter > 5){
-//					counter = 0;
-//					STM_EVAL_LEDToggle(LED2);
-//					SERVO_M_start();
-//				}
-//			}
-
-//		if(USART_RX_STA&0x80)
-//			{					   
-//				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
-//				printf("\n input :\n");
-//				for(t=0;t<len;t++)
-//				{
-//					//USART1->DR=USART_RX_BUF[t];
-//					//while((USART1->SR&0X40)==0);//等待发送结束
-//					STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t)USART_RX_BUF[t]);
-//				}
-//				printf("\n\n");//插入换行
-//				USART_RX_STA=0;
-//			}
-//		else
-//			{
-//				times++;
-//				if(times%50==0)
-//					{
-//						//STM_EVAL_SendChar(USED_COM_NUMBER,(uint8_t) 0x0a);
-//						printf(" tips: \n");
-//					}
-//				if(times%200==0)printf("end with the CR&LR \n");  
-//				if(times%30==0)STM_EVAL_LEDToggle(LED1);//闪烁LED,提示系统正在运行.
-//				delay_ms(20);   
-//			}
 			
 
 		}//while

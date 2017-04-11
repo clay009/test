@@ -10,7 +10,7 @@ static uint16_t target_phase = 0;
 //motor current position , the plus number had sent
 /*static*/ uint16_t current_circle = 0; //count in plus number
 //static uint16_t current_phase = 0;
-STEP_M_STATUS run_status = M_USR_STOP ;// 0: run , 1, stop by command , 2, stop when run to position
+STEP_M_STATUS run_status = M_IDLE ;// 0: run , 1, stop by command , 2, stop when run to position
 
 /*
 //excitation setting //default state at start-up/reset
@@ -130,9 +130,9 @@ returned to High, the output level conforms to the excitation position proceeded
 */
 void STEP_M_set_enable(bool enable){
 	if(enable)
-		STEP_EN_L();
-	else
 		STEP_EN_H();
+	else
+		STEP_EN_L();
 }
 
 /*
@@ -304,12 +304,13 @@ void STEP_M_set_peroid(int percent){
 	//TIM_SetCompare1(TIM3,bak_peroid*percent/100); 
 }
 void STEP_M_start_run(void){
-	run_status = M_RUN ;
+	run_status = M_UNIFORM_SPEED_RUN ;
 	TIM_Cmd(TIM3, ENABLE); 
 }
 
 void STEP_M_stop_run(void){
 	run_status = M_USR_STOP;
+	STEP_M_set_enable(FALSE);
 	TIM_Cmd(TIM3, DISABLE);
 }
 void STEP_M_init(void){

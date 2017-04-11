@@ -54,9 +54,13 @@ STK682 CONTROLER
 
 typedef enum 
 	{
-	M_RUN = 0,
-	M_USR_STOP = 1,
-	M_ARRIVED_STOP = 2
+		M_IDLE = 0,
+		M_USR_STOP = 1,
+		M_ARRIVED_STOP = 2,
+		M_ACC_RUN ,
+		M_UNIFORM_SPEED_RUN,
+		M_DEC_STOP,
+		M_SUDDEN_STOP,
 	} STEP_M_STATUS;
 extern STEP_M_STATUS run_status;
 

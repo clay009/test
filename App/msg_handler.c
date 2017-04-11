@@ -31,6 +31,7 @@ char TX_BUF[64];
 
 void cmd_process(void){
 	char *p=NULL, *pfun=NULL,*ptmp;
+	char id = 0, axis = 0;
 	int value;
 	
 	p = strtok(cmd_buf, MSG_SPILT);
@@ -40,10 +41,12 @@ void cmd_process(void){
 		if(0 == strcmp(p,"SET_SPEED")){ //SET_SPEED#ID@XX#AXIS@XX#SPEED@XXX
 			p = strtok(NULL, MSG_SPILT);
 			if(p){//"ID@01"
-				DEBUG("\n get ID =%s",(p+3));
+				id = (char)strtol((p+3), &ptmp,10);
+				DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
 				p = strtok(NULL, MSG_SPILT);
 				if(p){//AXIS@2
-					DEBUG("\n get ID =%s",(p+5));
+					axis = (char)strtol((p+5), &ptmp,10);
+					DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
 					p = strtok(NULL, MSG_SPILT);
 					if(p){
 						DEBUG("\n get SPEED =%s",(p+6));//SPEED@
@@ -68,10 +71,12 @@ void cmd_process(void){
 		else if(0 == strcmp(p,"SET_LOGIC_POS")){//SET_LOGIC_POS#ID@XX#AXIS@XX#POS@XXX
 						p = strtok(NULL, MSG_SPILT);
 						if(p){//"ID@01"
-							DEBUG("\n get ID =%s",(p+3));
+							id = (char)strtol((p+3), &ptmp,10);
+							DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
 							p = strtok(NULL, MSG_SPILT);
 							if(p){//AXIS@2
-								DEBUG("\n get ID =%s",(p+5));
+								axis = (char)strtol((p+5), &ptmp,10);
+								DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
 								p = strtok(NULL, MSG_SPILT);
 								if(p){
 									DEBUG("\n get POS =%s",(p+4));//POS@
@@ -94,10 +99,12 @@ void cmd_process(void){
 		else if(0 == strcmp(p,"SET_CIRCLE")){//SET_CIRCLE#ID@XX#AXIS@XX#NUM@XXX
 						p = strtok(NULL, MSG_SPILT);
 						if(p){//"ID@01"
-							DEBUG("\n get ID =%s",(p+3));
+							id = (char)strtol((p+3), &ptmp,10);
+							DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
 							p = strtok(NULL, MSG_SPILT);
 							if(p){//AXIS@2
-								DEBUG("\n get ID =%s",(p+5));
+								axis = (char)strtol((p+5), &ptmp,10);
+								DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
 								p = strtok(NULL, MSG_SPILT);
 								if(p){
 									DEBUG("\n get plus per circle  =%s",(p+4));//NUM@
@@ -105,6 +112,34 @@ void cmd_process(void){
 									DEBUG("\n parse plus per circle value =%d, ",value);
 									STEP_M_set_plus_num_per_circle(value);						
 									goto STEP_M_CMD_SUCC;
+								}
+								else 
+									goto STEP_M_CMD_ERR;//speed value 
+							}
+							else 
+								goto STEP_M_CMD_ERR;//axis
+						}
+						else
+						{
+							goto STEP_M_CMD_ERR;//id
+						}
+		}
+		else if(0 == strcmp(p,"SET_STOP")){//SET_STOP#ID@XX#AXIS@XX#STOP@XXX
+						p = strtok(NULL, MSG_SPILT);
+						if(p){//"ID@01"
+							id = (char)strtol((p+3), &ptmp,10);
+							DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
+							p = strtok(NULL, MSG_SPILT);
+							if(p){//AXIS@2
+								axis = (char)strtol((p+5), &ptmp,10);
+								DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
+								p = strtok(NULL, MSG_SPILT);
+								if(p){
+									DEBUG("\n get stop command =%s",(p));//STOP
+									if( 0 == strncmp(p, "STOP", 4)){
+										STEP_M_stop_run();
+										goto STEP_M_CMD_SUCC;
+									}
 								}
 								else 
 									goto STEP_M_CMD_ERR;//speed value 
