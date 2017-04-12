@@ -8,6 +8,8 @@ STK682 CONTROLER
 
 #define STEP_M_ID 1 //for each motor it should be different
 
+#define STEP_M_ACC_STEP	50 //change speed 50 times ,and it arrive target speed
+
 //STEP_EN PA10	//out put enable
 #define EN_PORT		GPIOA
 #define EN_PIN		GPIO_Pin_4///10->6 clay for uart rx ->4 NEW BOARD
@@ -55,12 +57,13 @@ STK682 CONTROLER
 typedef enum 
 	{
 		M_IDLE = 0,
-		M_USR_STOP = 1,
+		M_INITED = 1,
 		M_ARRIVED_STOP = 2,
-		M_ACC_RUN ,
-		M_UNIFORM_SPEED_RUN,
 		M_DEC_STOP,
 		M_SUDDEN_STOP,
+		M_ACC_RUN ,
+		M_UNIFORM_SPEED_RUN,
+
 	} STEP_M_STATUS;
 extern STEP_M_STATUS run_status;
 
@@ -74,7 +77,8 @@ void STEP_M_set_excitation(char mode);
 void STEP_M_set_clock(uint16_t us);
 void STEP_M_set_peroid(int percent);
 void STEP_M_start_run(void);
-void STEP_M_stop_run(void);
+void STEP_M_stop_run(void);//sudden stop
+void STEP_M_dec_stop(void);
 void STEP_M_run_step(void);
 void STEP_M_reset_counter(void);
 void STEP_M_set_target_position(uint16_t circle, uint16_t phase);

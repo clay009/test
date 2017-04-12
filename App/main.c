@@ -222,8 +222,8 @@ int main(void)
 		STEP_M_set_clock(SLOW); //speed
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_reset_counter();
-		STEP_M_set_plus_num_per_circle(24000);// uint_16 65536
-		STEP_M_set_target_position(10000, 12000);
+		STEP_M_set_plus_num_per_circle(800*20);// uint_16 65536
+		STEP_M_set_target_position(1, 0);
 		
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_DECAY(0);
@@ -253,7 +253,7 @@ int main(void)
 						if( SLOW - GAP*counter > FAST)
 							counter ++ ;
 						STEP_M_set_clock(SLOW - GAP*counter);						
-						STEP_M_start_run();
+						//STEP_M_start_run();
 						break;
 					case 3:				//wakeup
 						//STM_EVAL_LEDToggle(LED1);
@@ -262,7 +262,7 @@ int main(void)
 					  if(counter>0)
 							counter --;
 						STEP_M_set_clock(SLOW - GAP*counter);					
-						STEP_M_start_run();
+						//STEP_M_start_run();
 						break;
 					}
 					

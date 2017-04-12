@@ -1,16 +1,24 @@
 #include "stm32f10x.h"
 #include "motor_step.h"
+#include "SysTickDelay.h"
 
 static char div_mode = 0; //excitation mode
 /*volatile*/static int plus_counter = 8000*4; //PLUS = plus_counter/2
 static uint16_t plus_per_circle = 0;
 //target position set by host
-static uint16_t target_circle = 0; //count in plus number
+static uint16_t target_circle = 0; //use plus number to caculate
 static uint16_t target_phase = 0;
 //motor current position , the plus number had sent
 /*static*/ uint16_t current_circle = 0; //count in plus number
 //static uint16_t current_phase = 0;
 STEP_M_STATUS run_status = M_IDLE ;// 0: run , 1, stop by command , 2, stop when run to position
+static uint16_t current_speed = 0 ;//
+static uint16_t target_speed = 0;// v1=v0+at target_speed = current_speed + acc *  acc_time
+static uint16_t start_speed = 0;//
+static uint16_t acc = 0 ;//  
+//static uint16_t acc_time = 0 ;// t = (v1-v0)/a
+//static char acc_step = 0 ;
+static char acc_delay = 0 ;
 
 /*
 //excitation setting //default state at start-up/reset
@@ -297,8 +305,30 @@ void STEP_M_timer_init(void){
 // 0~15k : max ~ 66/2us , 65535->7Hz ,33->14.5kHz
 void STEP_M_set_clock(uint16_t us){
 	TIM_Configuration(us);
+	current_speed = us ;
 //	TIM_Configuration(32768);
 }
+
+void STEP_M_set_start_speed(uint16_t us){
+	start_speed = us;
+}
+
+void STEP_M_set_target_speed(uint16_t us){
+	target_speed = us;
+}
+
+void STEP_M_set_speed_acc(uint16_t us){
+	acc = us;
+}
+
+void STEP_M_get_acc_delay(){
+	uint16_t acc_time = 0 ;
+	if((acc_time == 0)&&(acc != 0)){
+		acc_time = (target_speed - target_speed) / acc ;
+		acc_delay = acc_time / STEP_M_ACC_STEP;
+	}
+}
+
 void STEP_M_set_peroid(int percent){
 	
 	//TIM_SetCompare1(TIM3,bak_peroid*percent/100); 
@@ -308,11 +338,29 @@ void STEP_M_start_run(void){
 	TIM_Cmd(TIM3, ENABLE); 
 }
 
-void STEP_M_stop_run(void){
-	run_status = M_USR_STOP;
-	STEP_M_set_enable(FALSE);
+void STEP_M_stop_run(void){ //sudden stop
+	run_status = M_SUDDEN_STOP;
 	TIM_Cmd(TIM3, DISABLE);
+	STEP_M_set_enable(FALSE);
+	current_speed = 0;
 }
+
+void STEP_M_dec_stop(void){
+	uint16_t  distance;
+	char i; 
+	if (current_speed > start_speed){
+		distance = (current_speed - start_speed) / STEP_M_ACC_STEP;
+		for(i=0;i< STEP_M_ACC_STEP;i++){
+			current_speed -= distance;
+			TIM_Configuration(current_speed);
+			delay_ms(acc_delay);
+		}
+	}
+	current_speed = 0;
+	TIM_Cmd(TIM3, DISABLE);
+	STEP_M_set_enable(FALSE);
+}
+
 void STEP_M_init(void){
 	STEP_M_IO_init();
 	STEP_M_timer_init();

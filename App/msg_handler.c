@@ -38,7 +38,42 @@ void cmd_process(void){
 	pfun = p;
 	if(p){//
 		DEBUG("\n get function : %s",p);
-		if(0 == strcmp(p,"SET_SPEED")){ //SET_SPEED#ID@XX#AXIS@XX#SPEED@XXX
+		//stop should be high piority
+			if(0 == strcmp(p,"SET_STOP")){//SET_STOP#ID@XX#AXIS@XX#STOP@XXX
+						p = strtok(NULL, MSG_SPILT);
+						if(p){//"ID@01"
+							id = (char)strtol((p+3), &ptmp,10);
+							DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
+							p = strtok(NULL, MSG_SPILT);
+							if(p){//AXIS@2
+								axis = (char)strtol((p+5), &ptmp,10);
+								DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
+								p = strtok(NULL, MSG_SPILT);
+								if(p){
+									DEBUG("\n get stop command =%s",(p));//STOP
+									if( 0 == strncmp(p, "STOP", 4)){
+											DEBUG("\n get stop =%s",(p+5));//STOP@
+											value = (int)strtol((p+5), &ptmp,10);//10:oct, 16:hex ...
+											DEBUG("\n parse stop  value =%d",value);
+										if(value == 0)
+											STEP_M_stop_run();//stop quickly
+										else
+											STEP_M_stop_run();
+										goto STEP_M_CMD_SUCC;
+									}
+								}
+								else 
+									goto STEP_M_CMD_ERR;//speed value 
+							}
+							else 
+								goto STEP_M_CMD_ERR;//axis
+						}
+						else
+						{
+							goto STEP_M_CMD_ERR;//id
+						}
+		}
+		else if(0 == strcmp(p,"SET_SPEED")){ //SET_SPEED#ID@XX#AXIS@XX#SPEED@XXX
 			p = strtok(NULL, MSG_SPILT);
 			if(p){//"ID@01"
 				id = (char)strtol((p+3), &ptmp,10);
@@ -52,7 +87,7 @@ void cmd_process(void){
 						DEBUG("\n get SPEED =%s",(p+6));//SPEED@
 						value = (int)strtol((p+6), &ptmp,10);//10:oct, 16:hex ...
 						DEBUG("\n parse SPEED  value =%d",value);
-						STEP_M_stop_run();
+						//STEP_M_stop_run(); no need to stop
 						STEP_M_set_clock(value);						
 						STEP_M_start_run();
 						goto STEP_M_CMD_SUCC;
@@ -112,34 +147,6 @@ void cmd_process(void){
 									DEBUG("\n parse plus per circle value =%d, ",value);
 									STEP_M_set_plus_num_per_circle(value);						
 									goto STEP_M_CMD_SUCC;
-								}
-								else 
-									goto STEP_M_CMD_ERR;//speed value 
-							}
-							else 
-								goto STEP_M_CMD_ERR;//axis
-						}
-						else
-						{
-							goto STEP_M_CMD_ERR;//id
-						}
-		}
-		else if(0 == strcmp(p,"SET_STOP")){//SET_STOP#ID@XX#AXIS@XX#STOP@XXX
-						p = strtok(NULL, MSG_SPILT);
-						if(p){//"ID@01"
-							id = (char)strtol((p+3), &ptmp,10);
-							DEBUG("\n get ID str =%s ,value=%d",(p+3),id);
-							p = strtok(NULL, MSG_SPILT);
-							if(p){//AXIS@2
-								axis = (char)strtol((p+5), &ptmp,10);
-								DEBUG("\n get axis str =%s,value =%d",(p+5),axis);
-								p = strtok(NULL, MSG_SPILT);
-								if(p){
-									DEBUG("\n get stop command =%s",(p));//STOP
-									if( 0 == strncmp(p, "STOP", 4)){
-										STEP_M_stop_run();
-										goto STEP_M_CMD_SUCC;
-									}
 								}
 								else 
 									goto STEP_M_CMD_ERR;//speed value 
