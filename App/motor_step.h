@@ -9,6 +9,9 @@ STK682 CONTROLER
 #define STEP_M_ID 1 //for each motor it should be different
 
 #define STEP_M_ACC_STEP	50 //change speed 50 times ,and it arrive target speed
+#define STEP_M_ACC_DELAY 100 //MS slowest:200-> 50ms-  > delay 100 ms,
+#define STEP_M_DEFAULT_CIRCLE_PLUS 800*20 // 20:1 mode
+#define STEP_M_DEFAULT_ACC	100 // 100 plus/s
 
 //STEP_EN PA10	//out put enable
 #define EN_PORT		GPIOA

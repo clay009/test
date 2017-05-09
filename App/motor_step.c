@@ -9,16 +9,16 @@ static uint16_t plus_per_circle = 0;
 static uint16_t target_circle = 0; //use plus number to caculate
 static uint16_t target_phase = 0;
 //motor current position , the plus number had sent
-/*static*/ uint16_t current_circle = 0; //count in plus number
+/*static*/ uint16_t current_circle = STEP_M_DEFAULT_CIRCLE_PLUS; //count in plus number
 //static uint16_t current_phase = 0;
 STEP_M_STATUS run_status = M_IDLE ;// 0: run , 1, stop by command , 2, stop when run to position
 static uint16_t current_speed = 0 ;//
 static uint16_t target_speed = 0;// v1=v0+at target_speed = current_speed + acc *  acc_time
 static uint16_t start_speed = 0;//
-static uint16_t acc = 0 ;//  
+static uint16_t acc = STEP_M_DEFAULT_ACC ;//  
 //static uint16_t acc_time = 0 ;// t = (v1-v0)/a
 //static char acc_step = 0 ;
-static char acc_delay = 0 ;
+static char acc_delay = STEP_M_ACC_DELAY ;
 
 /*
 //excitation setting //default state at start-up/reset
@@ -346,8 +346,9 @@ void STEP_M_stop_run(void){ //sudden stop
 }
 
 void STEP_M_dec_stop(void){
-	uint16_t  distance;
+	/*uint16_t  distance;
 	char i; 
+	
 	if (current_speed > start_speed){
 		distance = (current_speed - start_speed) / STEP_M_ACC_STEP;
 		for(i=0;i< STEP_M_ACC_STEP;i++){
@@ -356,6 +357,18 @@ void STEP_M_dec_stop(void){
 			delay_ms(acc_delay);
 		}
 	}
+	*/
+	//t= (v0-v1)/a
+	uint16_t acc_time ,i;
+	acc_time = current_speed /acc ;
+	for(i=0;i< acc_time;){
+			TIM_Configuration(current_speed);
+			delay_ms(acc_delay);
+			i += acc_delay;
+			current_speed -= acc ;
+			if(current_speed < 0 ) break;
+		}
+	
 	current_speed = 0;
 	TIM_Cmd(TIM3, DISABLE);
 	STEP_M_set_enable(FALSE);

@@ -223,7 +223,7 @@ int main(void)
 		//STEP_M_set_peroid(250);//just for hw pwm
 		STEP_M_reset_counter();
 		STEP_M_set_plus_num_per_circle(800*20);// uint_16 65536
-		STEP_M_set_target_position(1, 0);
+		STEP_M_set_target_position(20, 30);
 		
 		STEP_MOT_set_clockwise(TRUE);
 		STEP_M_DECAY(0);
