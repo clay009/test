@@ -376,17 +376,29 @@ void STEP_M_dec_stop(void){
 }
 
 void STEP_M_acc_start(){
-
+	bool speed_acc = TRUE ;
 	uint16_t acc_time ,i,gap;
 	gap = (acc * acc_delay)  /(1000 ) ;// acc plus/s , delay: ms ,so / 1000
-	acc_time = ( target_speed - start_speed )* 1000 /acc ;
-	current_speed = start_speed;
+	if( target_speed > start_speed ){
+		acc_time = ( target_speed - start_speed )* 1000 /acc ;
+		}
+	else{
+		acc_time = ( start_speed - target_speed  )* 1000 /acc ;
+		speed_acc = FALSE;
+		}
+	current_speed = start_speed;		
 	for(i=0;i< acc_time;){
 			TIM_Configuration(current_speed);
 			delay_ms(acc_delay);
 			i += acc_delay;
-			current_speed += gap ;
-			if(current_speed > target_speed ) break;
+			if(speed_acc){
+				current_speed += gap ;
+				if(current_speed > target_speed ) break;
+			}
+			else{
+					current_speed -= gap ;
+					if(current_speed < target_speed ) break;
+				}
 		}
 	
 	current_speed = target_speed;
