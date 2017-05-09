@@ -361,7 +361,7 @@ void STEP_M_dec_stop(void){
 	//t= (v0-v1)/a
 	uint16_t acc_time ,i,gap;
 	gap = (acc * acc_delay)  /(1000 ) ;// acc plus/s , delay: ms ,so / 1000
-	acc_time = current_speed /acc ;
+	acc_time = (current_speed * 1000 )/acc ;
 	for(i=0;i< acc_time;){
 			TIM_Configuration(current_speed);
 			delay_ms(acc_delay);
@@ -375,7 +375,23 @@ void STEP_M_dec_stop(void){
 	STEP_M_set_enable(FALSE);
 }
 
+void STEP_M_acc_start(){
 
+	uint16_t acc_time ,i,gap;
+	gap = (acc * acc_delay)  /(1000 ) ;// acc plus/s , delay: ms ,so / 1000
+	acc_time = ( target_speed - start_speed )* 1000 /acc ;
+	current_speed = start_speed;
+	for(i=0;i< acc_time;){
+			TIM_Configuration(current_speed);
+			delay_ms(acc_delay);
+			i += acc_delay;
+			current_speed += gap ;
+			if(current_speed > target_speed ) break;
+		}
+	
+	current_speed = target_speed;
+	TIM_Configuration(current_speed);
+}
 
 void STEP_M_init(void){
 	STEP_M_IO_init();
