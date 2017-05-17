@@ -38,6 +38,7 @@ Date : 2010.12.05
 #include <stdio.h>
 #include "motor_servo.h"
 #include "motor_step.h"
+#include "motor_step5.h"
 #include "msg_handler.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -211,7 +212,9 @@ int main(void)
 	SysTick_Initaize();
 	STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
 	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
-		
+
+#if 0
+
 		SERVO_M_init();
 		SERVO_M_set_clockwise(FALSE);
 		SERVO_M_set_step_interval(100); //us
@@ -233,12 +236,15 @@ int main(void)
 		printf("\nREPORT#ID@%d#STATUS@ready\n",BOARD_ID);
 	STM_EVAL_PBInit(Button_WAKEUP,Mode_GPIO);
 	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
-	
+#else
+	STEP5_init();
+#endif	
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 			msg_process();
-			delay_ms(50);			
+			delay_ms(50);	
+			#if 0
 			Key_Vlaue=KEY_Scan();//µÃµ½¼üÖµ
 			if(Key_Vlaue)
 				{						   
@@ -268,7 +274,7 @@ int main(void)
 					
 					DEBUG("\n counter = %d",counter);
 				} 
-			
+			#endif
 
 		}//while
 	}//main
