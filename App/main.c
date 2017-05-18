@@ -149,8 +149,8 @@ void Init_All_Periph(void)
 	
 		//SERVO_M_init();
 	//USART1_Configuration();
-	USART_Configuration(115200);//115200 9600
-	USART_RX_IntteruptEnable(USED_COM_NUMBER);		//接收中断使能
+	//clay USART_Configuration(115200);//115200 9600
+	//clay USART_RX_IntteruptEnable(USED_COM_NUMBER);		//接收中断使能
 	
 	//TIM3_Configuration();
 	}
@@ -205,6 +205,11 @@ void pwm_set_pwm_hi(u16 phase)
     TIM_SelectOCxM(TIM1, phase, TIM_OCMode_PWM1);
     TIM_CCxCmd(TIM1, phase, TIM_CCx_Enable);
     TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Disable);
+
+	//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable);
+	//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);
+
+	//    TIM_CCxCmd(TIM1, TIM_Channel_3, TIM_CCx_Disable);     TIM_CCxNCmd(TIM1, TIM_Channel_3, TIM_CCxN_Disable); 
 }
 //********************************************************************************  
 /* set phase to \"negative with PWM */
@@ -213,8 +218,17 @@ void pwm_set_pwm_lo(u16 phase)
     TIM_SelectOCxM(TIM1, phase, TIM_OCMode_PWM1);
     TIM_CCxCmd(TIM1, phase, TIM_CCx_Disable);
     TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Enable);
+
+		//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable);
+	//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+	 //   TIM_CCxCmd(TIM1, TIM_Channel_3, TIM_CCx_Enable);     TIM_CCxNCmd(TIM1, TIM_Channel_3, TIM_CCxN_Enable); 
 }
 
+void pwm_set____off(u16 phase)
+{
+    TIM_CCxCmd(TIM1, phase, TIM_CCx_Disable);
+    TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Disable);
+}
 
 #define SLOW 600//600 //50*1000--10Hz
 #define FAST 	100   //50 10K
@@ -228,8 +242,8 @@ int main(void)
 		
 	Init_All_Periph();
 	SysTick_Initaize();
-	//STM_EVAL_LEDOff(LED1);	 //熄灭LED0
-	//STM_EVAL_LEDOff(LED2);	 //熄灭LED0
+	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
+	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
 
 #if 0
 
@@ -263,21 +277,26 @@ int main(void)
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 
 			
-						STEP5_CLK_L();
-						pwm_set_pwm_hi(TIM_Channel_1);
-						pwm_set_pwm_hi(TIM_Channel_2);
-						pwm_set_pwm_hi(TIM_Channel_3);
-						//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
-						//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
-						delay_ms(5);
-						pwm_set_pwm_lo(TIM_Channel_1);
-						pwm_set_pwm_lo(TIM_Channel_2
-							);
-						pwm_set_pwm_lo(TIM_Channel_3);
-						//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
-						//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
-						STEP5_CLK_H();
-						delay_ms(5);
+			STEP5_CLK_L();
+			pwm_set_pwm_hi(TIM_Channel_1);
+			pwm_set_pwm_hi(TIM_Channel_2);
+			pwm_set_pwm_hi(TIM_Channel_3);
+			//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
+			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+			delay_ms(5);
+			pwm_set_pwm_lo(TIM_Channel_1);
+			pwm_set_pwm_lo(TIM_Channel_2);
+			pwm_set_pwm_lo(TIM_Channel_3);
+			//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
+			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
+			STEP5_CLK_H();
+			delay_ms(5);
+			/*
+			pwm_set____off(TIM_Channel_1);
+			pwm_set____off(TIM_Channel_2);
+			pwm_set____off(TIM_Channel_3);
+			delay_ms(5);
+			*/
 			
 			#if 0
 						msg_process();

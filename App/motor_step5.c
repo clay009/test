@@ -37,18 +37,18 @@ GPIO_Init(GPIOB,&GPIO_InitStructure);
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 80K
 	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  不分频
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;//TIM_CounterMode_CenterAligned3;//TIM_CounterMode_Up;  //TIM向上计数模式
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
 
- #if 0
+ #if 1
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2; //选择定时器模式:TIM脉冲宽度调制模式2
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 	TIM_OCInitStructure.TIM_Pulse = 0; //设置待装入捕获比较寄存器的脉冲值
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //输出极性:TIM输出比较极性高
-		TIM_OCInitStructure.TIM_OCNPolarity= TIM_OCPolarity_Low; 
+		TIM_OCInitStructure.TIM_OCNPolarity= TIM_OCPolarity_High; //TIM_OCPolarity_Low
 		TIM_OCInitStructure.TIM_OutputNState= TIM_OutputState_Enable;
-		TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;
-		TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
+		TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;//TIM_OCIdleState_Reset
+		TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Set;//TIM_OCNIdleState_Reset
 
 	TIM_OC1Init(TIM1, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
 
@@ -65,11 +65,11 @@ GPIO_Init(GPIOB,&GPIO_InitStructure);
 TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
 TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
-TIM_OCInitStructure.TIM_Pulse = 0;
+TIM_OCInitStructure.TIM_Pulse = 0;//clay 0>10
 TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
 TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCNPolarity_High;
 TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;     
-TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
 
 TIM_OC1Init(TIM1, &TIM_OCInitStructure);
 TIM_OC2Init(TIM1, &TIM_OCInitStructure);
@@ -82,7 +82,7 @@ TIM_OC3PreloadConfig(TIM1,TIM_OCPreload_Enable);
 TIM_BDTRInitStructure.TIM_OSSRState = TIM_OSSRState_Enable;
 TIM_BDTRInitStructure.TIM_OSSIState = TIM_OSSIState_Enable;
 TIM_BDTRInitStructure.TIM_LOCKLevel = TIM_LOCKLevel_OFF;
-TIM_BDTRInitStructure.TIM_DeadTime = 1;//clay
+TIM_BDTRInitStructure.TIM_DeadTime = 50;//clay
 TIM_BDTRInitStructure.TIM_Break = TIM_Break_Disable;               
 TIM_BDTRInitStructure.TIM_BreakPolarity = TIM_BreakPolarity_Low;
 TIM_BDTRInitStructure.TIM_AutomaticOutput = TIM_AutomaticOutput_Disable;
@@ -212,10 +212,10 @@ void STEP5_init(void){
 	//STEP5_timer_init();
 	//TIM3_Configuration();
 	//TIM_SetCompare2(TIM3,400);	
-	TIM1_PWM_Init(899,0);
-	TIM_SetCompare1(TIM1,300);	
+	TIM1_PWM_Init(999,0);
+	TIM_SetCompare1(TIM1,400);	
 	TIM_SetCompare2(TIM1,400);	
-	TIM_SetCompare3(TIM1,200);	
+	TIM_SetCompare3(TIM1,400);	
 
 
 }
