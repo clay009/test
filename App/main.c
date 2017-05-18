@@ -198,6 +198,24 @@ void Delay(vu32 nCount)
 	return 0;// 无按键按下
 	}
 
+
+/* set phase to \"positive with PWM */
+void pwm_set_pwm_hi(u16 phase)
+{
+    TIM_SelectOCxM(TIM1, phase, TIM_OCMode_PWM1);
+    TIM_CCxCmd(TIM1, phase, TIM_CCx_Enable);
+    TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Disable);
+}
+//********************************************************************************  
+/* set phase to \"negative with PWM */
+void pwm_set_pwm_lo(u16 phase)
+{
+    TIM_SelectOCxM(TIM1, phase, TIM_OCMode_PWM1);
+    TIM_CCxCmd(TIM1, phase, TIM_CCx_Disable);
+    TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Enable);
+}
+
+
 #define SLOW 600//600 //50*1000--10Hz
 #define FAST 	100   //50 10K
 #define GAP  50
@@ -210,8 +228,8 @@ int main(void)
 		
 	Init_All_Periph();
 	SysTick_Initaize();
-	STM_EVAL_LEDOff(LED1);	 //熄灭LED0
-	STM_EVAL_LEDOff(LED2);	 //熄灭LED0
+	//STM_EVAL_LEDOff(LED1);	 //熄灭LED0
+	//STM_EVAL_LEDOff(LED2);	 //熄灭LED0
 
 #if 0
 
@@ -238,13 +256,32 @@ int main(void)
 	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
 #else
 	STEP5_init();
+	STEP5_CLK_H();
 #endif	
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
-			msg_process();
-			delay_ms(50);	
+
+			
+						STEP5_CLK_L();
+						pwm_set_pwm_hi(TIM_Channel_1);
+						pwm_set_pwm_hi(TIM_Channel_2);
+						pwm_set_pwm_hi(TIM_Channel_3);
+						//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
+						//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+						delay_ms(5);
+						pwm_set_pwm_lo(TIM_Channel_1);
+						pwm_set_pwm_lo(TIM_Channel_2
+							);
+						pwm_set_pwm_lo(TIM_Channel_3);
+						//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
+						//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
+						STEP5_CLK_H();
+						delay_ms(5);
+			
 			#if 0
+						msg_process();
+			delay_ms(50);	
 			Key_Vlaue=KEY_Scan();//得到键值
 			if(Key_Vlaue)
 				{						   
@@ -269,6 +306,44 @@ int main(void)
 							counter --;
 						STEP_M_set_clock(SLOW - GAP*counter);					
 						//STEP_M_start_run();
+						break;
+					}
+					
+					DEBUG("\n counter = %d",counter);
+				} 
+			
+			Key_Vlaue=KEY_Scan();//得到键值
+			if(Key_Vlaue)
+				{						   
+				switch(Key_Vlaue)
+					{				 
+					case 1://for servo motor int
+						STEP5_CLK_L();
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+						STEP5_CLK_H();
+						break;
+					case 2: //KEY 1
+						STEP5_CLK_L();
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);
+						STEP5_CLK_H();
+						break;
+					case 3:				//wakeup
+						STEP5_CLK_L();
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+						delay_ms(20);
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);
+						delay_ms(20);
+						STEP5_CLK_L();
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
+						delay_ms(20);
+						TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
+						TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
+						STEP5_CLK_H();
 						break;
 					}
 					
