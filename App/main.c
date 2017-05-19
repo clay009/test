@@ -279,25 +279,27 @@ int main(void)
 #else
 	STEP5_init();
 	//STEP5_CLK_H();
+		STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
+	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
 #endif	
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 
-			
-			STEP5_CLK_L();
+			//STM_EVAL_LEDToggle(LED2);
+			//STEP5_CLK_L();
 			pwm_set_pwm_hi(TIM_Channel_1);
 			pwm_set_pwm_hi(TIM_Channel_2);
 			pwm_set_pwm_hi(TIM_Channel_3);
 			//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable); 
 			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
-			delay_ms(5);
+			delay_ms(500);
 			pwm_set_pwm_lo(TIM_Channel_1);
 			pwm_set_pwm_lo(TIM_Channel_2);
 			pwm_set_pwm_lo(TIM_Channel_3);
 			//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
 			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
-			STEP5_CLK_H();
+			//STEP5_CLK_H();
 			delay_ms(5);
 			#if 0
 			pwm_set____off(TIM_Channel_1);

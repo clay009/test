@@ -78,12 +78,12 @@ void EXTI15_10_IRQHandler(void)
 	delay_ms(10);    //消抖			 
 	if (STM_EVAL_PBGetState(Button_KEY0) == 0x00)		//按键按下:低电平有效
 		{
-		STM_EVAL_LEDToggle(LED2);
+		//STM_EVAL_LEDToggle(LED2);
 			 SERVO_M_fault_out();
 		}
 	else if (STM_EVAL_PBGetState(Button_KEY1) == 0x00)		//按键按下:低电平有效
 		{
-		STM_EVAL_LEDToggle(LED2);
+		//STM_EVAL_LEDToggle(LED2);
 		}
 	//EXTI->PR=1<<13;     //清除LINE13上的中断标志位  
 	//EXTI->PR=1<<15;     //清除LINE15上的中断标志位  
@@ -209,12 +209,27 @@ void TIM3_IRQHandler(void)   //TIM3中断
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//GPIO_WriteBit(GPIOD, GPIO_Pin_2, (BitAction)(1 - GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_2)));
-		//clay STM_EVAL_LEDToggle(LED2);
+		// STM_EVAL_LEDToggle(LED2);
 			//SERVO_M_run_step(); //no use, for pwm
-			STEP_M_run_step();//STEP_M_CLK_toggle();
+			//STEP_M_run_step();//STEP_M_CLK_toggle();
 		}
 	}
 
+
+extern void STEP5_int(void);
+void TIM6_IRQHandler(void)   //TIM3中断
+	{
+	//STM_EVAL_LEDToggle(LED1);
+	if (TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
+		{
+		TIM_ClearITPendingBit(TIM6, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
+		/* Pin PD.02 toggling with frequency = 10KHz */
+		//STEP_M_CLK_toggle();//step motor use pwm
+		//	SERVO_M_run_step();
+		//STEP5_int();
+		STM_EVAL_LEDToggle(LED2);
+		}
+	}
 	
 /**
   * @brief  This function handles TIM5 global interrupt request.
@@ -223,12 +238,15 @@ void TIM3_IRQHandler(void)   //TIM3中断
   */
 void TIM5_IRQHandler(void)   //TIM3中断
 	{
+		//STM_EVAL_LEDToggle(LED1);
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//STEP_M_CLK_toggle();//step motor use pwm
-			SERVO_M_run_step();
+		//	SERVO_M_run_step();
+		STEP5_int();
+			STM_EVAL_LEDToggle(LED2);
 		}
 	}
 	
