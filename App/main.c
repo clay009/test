@@ -278,12 +278,12 @@ int main(void)
 	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
 #else
 	STEP5_motor_init();
-	TIM_Cmd(TIM6, ENABLE); 
+	//TIM_Cmd(TIM6, ENABLE); 
 #endif	
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
-			delay_ms(5);
+			delay_ms(50);
 			//STM_EVAL_LEDToggle(LED2);
 			//STEP5_CLK_L();
 			#if 0
@@ -305,7 +305,7 @@ int main(void)
 			pwm_set____off(TIM_Channel_2);
 			pwm_set____off(TIM_Channel_3);
 			delay_ms(5);
-			#elif 0
+			#elif 1
 				TIM_SelectOCxM(TIM1, TIM_Channel_1, TIM_OCMode_PWM1);
 				TIM_SelectOCxM(TIM1, TIM_Channel_2, TIM_OCMode_PWM1);
 				TIM_SelectOCxM(TIM1, TIM_Channel_3, TIM_OCMode_PWM1);
