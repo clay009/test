@@ -96,7 +96,7 @@ TIM_CtrlPWMOutputs(TIM1, ENABLE);
 
    
 }
-#if 0
+#if 1
 
 void TIM3_Configuration(void)
 	{
@@ -127,6 +127,7 @@ void TIM3_Configuration(void)
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //??????
 	TIM_OCInitStructure.TIM_Pulse = 0; //????????????????
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //????:TIM???????
+	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Set;//clay TIM_OCIdleState_Reset
 	TIM_OC2Init(TIM3, &TIM_OCInitStructure);  //??TIM_OCInitStruct???????????TIMx
 	TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);  //??TIMx?CCR2????????
 	
@@ -169,7 +170,7 @@ void STEP5_timer_init(void){
 	
 	
 	
-	TIM_SetCompare1(TIM3,1000);
+	//TIM_SetCompare1(TIM3,1000);
 	/* TIM3 enable counter */
 	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
 
@@ -185,7 +186,7 @@ void STEP5_IO_init(){
 
 		/*GPIOA Configuration: TIM3 channel1*/	  //设置该引脚为复用输出功能,输出TIM3 CH1的PWM脉冲波形
 	GPIO_InitStructure.GPIO_Pin = CLK5_PIN; //TIM_CH1
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;//GPIO_Mode_AF_PP;  //复用推挽输出
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;//GPIO_Mode_Out_PP;//GPIO_Mode_AF_PP;  //复用推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(CLK5_PORT, &GPIO_InitStructure);
 
@@ -199,22 +200,18 @@ void STEP5_IO_init(){
 //	GPIO_Init(GPIOA, &GPIO_InitStructure);
 //	GPIO_ResetBits(GPIOA, GPIO_Pin_12);
 	
-		/*GPIOB Configuration: TIM3 channel2*/	  //????????????,??TIM3 CH2?PWM????
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; //TIM_CH2
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  //??????
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
 
 }
 
 void STEP5_init(void){
 	STEP5_IO_init();
 	//STEP5_timer_init();
-	//TIM3_Configuration();
-	//TIM_SetCompare2(TIM3,400);	
-	TIM1_PWM_Init(999,0);
-	TIM_SetCompare1(TIM1,400);	
-	TIM_SetCompare2(TIM1,400);	
+	TIM3_Configuration();
+	TIM_SetCompare2(TIM3,400);	
+	TIM1_PWM_Init(899,0);
+	TIM_SetCompare1(TIM1,200);	
+	TIM_SetCompare2(TIM1,300);	
 	TIM_SetCompare3(TIM1,400);	
 
 
