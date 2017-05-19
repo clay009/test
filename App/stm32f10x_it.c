@@ -226,8 +226,8 @@ void TIM6_IRQHandler(void)   //TIM3ÖÐ¶Ï
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//STEP_M_CLK_toggle();//step motor use pwm
 		//	SERVO_M_run_step();
-		//STEP5_int();
-		STM_EVAL_LEDToggle(LED2);
+		STEP5_int();
+		//STM_EVAL_LEDToggle(LED2);
 		}
 	}
 	
@@ -245,8 +245,8 @@ void TIM5_IRQHandler(void)   //TIM3ÖÐ¶Ï
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//STEP_M_CLK_toggle();//step motor use pwm
 		//	SERVO_M_run_step();
-		STEP5_int();
-			STM_EVAL_LEDToggle(LED2);
+		//STEP5_int();
+			//STM_EVAL_LEDToggle(LED2);
 		}
 	}
 	
