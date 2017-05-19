@@ -206,7 +206,10 @@ void pwm_set_pwm_hi(u16 phase)
     TIM_CCxCmd(TIM1, phase, TIM_CCx_Enable);
     TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Disable);
 
-	TIM_CCxCmd(TIM3, TIM_Channel_2, TIM_CCx_Enable);
+	TIM_CCxCmd(TIM4, TIM_Channel_1, TIM_CCx_Enable);
+	TIM_CCxCmd(TIM4, TIM_Channel_2, TIM_CCx_Enable);
+	TIM_CCxCmd(TIM4, TIM_Channel_3, TIM_CCx_Enable);
+	TIM_CCxCmd(TIM4, TIM_Channel_4, TIM_CCx_Enable);
 	//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable);
 	//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);
 
@@ -220,7 +223,10 @@ void pwm_set_pwm_lo(u16 phase)
     TIM_CCxCmd(TIM1, phase, TIM_CCx_Disable);
     TIM_CCxNCmd(TIM1, phase, TIM_CCxN_Enable);
 
-	TIM_CCxCmd(TIM3, TIM_Channel_2, TIM_CCx_Disable);
+	TIM_CCxCmd(TIM4, TIM_Channel_1, TIM_CCx_Disable);
+	TIM_CCxCmd(TIM4, TIM_Channel_2, TIM_CCx_Disable);
+	TIM_CCxCmd(TIM4, TIM_Channel_4, TIM_CCx_Disable);
+	TIM_CCxCmd(TIM4, TIM_Channel_3, TIM_CCx_Disable);
 		//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable);
 	//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable);
 	 //   TIM_CCxCmd(TIM1, TIM_Channel_3, TIM_CCx_Enable);     TIM_CCxNCmd(TIM1, TIM_Channel_3, TIM_CCxN_Enable); 
@@ -279,7 +285,7 @@ int main(void)
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
 
 			
-			//STEP5_CLK_L();
+			STEP5_CLK_L();
 			pwm_set_pwm_hi(TIM_Channel_1);
 			pwm_set_pwm_hi(TIM_Channel_2);
 			pwm_set_pwm_hi(TIM_Channel_3);
@@ -291,7 +297,7 @@ int main(void)
 			pwm_set_pwm_lo(TIM_Channel_3);
 			//TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable); 
 			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
-			//STEP5_CLK_H();
+			STEP5_CLK_H();
 			delay_ms(5);
 			#if 0
 			pwm_set____off(TIM_Channel_1);

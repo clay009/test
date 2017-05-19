@@ -1,6 +1,8 @@
 /*
 * for STEP  5 phase motor header 
-
+timer 1 for pwm 123 1n 2n 3n
+timer 4 for pwm 5 6 5n 6n
+timer 6 for step 
 */
 
 #ifndef MOTOR_STEP5_H_
