@@ -3,7 +3,7 @@
 #include "SysTickDelay.h"
 
 #define MAX_PHASE	10
-static char step5_phase = 0;
+static char step5_phase = MAX_PHASE;
 static bool clock_wise = TRUE; 
 
 /*
@@ -422,7 +422,7 @@ void STEP5_motor_phase_INT(void){
 		STEP5_CLK_L();
 	}
 
-	//Run_one_step();
+	Run_one_step();
 }
 
 
@@ -474,5 +474,5 @@ void STEP5_motor_init(void){
 	PHASE_C_H_OFF;
 	PHASE_D_H_OFF;
 	PHASE_E_H_OFF;
-	TIM_Cmd(TIM6, ENABLE); 
+	//TIM_Cmd(TIM6, ENABLE); 
 }

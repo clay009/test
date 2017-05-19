@@ -278,7 +278,7 @@ int main(void)
 	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
 #else
 	STEP5_motor_init();
-	//TIM_Cmd(TIM6, ENABLE); 
+	TIM_Cmd(TIM6, ENABLE); 
 #endif	
 	while(1)
 		{
@@ -305,7 +305,7 @@ int main(void)
 			pwm_set____off(TIM_Channel_2);
 			pwm_set____off(TIM_Channel_3);
 			delay_ms(5);
-			#elif 1
+			#elif 0
 				TIM_SelectOCxM(TIM1, TIM_Channel_1, TIM_OCMode_PWM1);
 				TIM_SelectOCxM(TIM1, TIM_Channel_2, TIM_OCMode_PWM1);
 				TIM_SelectOCxM(TIM1, TIM_Channel_3, TIM_OCMode_PWM1);
