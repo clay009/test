@@ -243,8 +243,8 @@ void pwm_set____off(u16 phase)
 #define GAP  50
 int main(void)
 	{  
-		uint16_t counter = 0;
-		u8 Key_Vlaue; 
+//		uint16_t counter = 0;
+//		u8 Key_Vlaue; 
 //	u8 len=0;	
 //	u16 times=0; 
 		

@@ -18,6 +18,30 @@ timer 6 for step
 #ifndef MOTOR_STEP5_H_
 #define MOTOR_STEP5_H_ 
 
+#define PHASE_A_H_ON 		TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable)
+#define PHASE_A_H_OFF 		TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable)
+#define PHASE_AN_L_ON 	TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable)
+#define PHASE_AN_L_OFF 	TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Disable)
+
+#define PHASE_B_H_ON 		TIM_CCxCmd(TIM1, TIM_Channel_2, TIM_CCx_Enable)
+#define PHASE_B_H_OFF 		TIM_CCxCmd(TIM1, TIM_Channel_2, TIM_CCx_Disable)
+#define PHASE_BN_L_ON 	TIM_CCxNCmd(TIM1, TIM_Channel_2, TIM_CCxN_Enable)
+#define PHASE_BN_L_OFF 	TIM_CCxNCmd(TIM1, TIM_Channel_2, TIM_CCxN_Disable)
+
+#define PHASE_C_H_ON 		TIM_CCxCmd(TIM1, TIM_Channel_3, TIM_CCx_Enable)
+#define PHASE_C_H_OFF 		TIM_CCxCmd(TIM1, TIM_Channel_3, TIM_CCx_Disable)
+#define PHASE_CN_L_ON 	TIM_CCxNCmd(TIM1, TIM_Channel_3, TIM_CCxN_Enable)
+#define PHASE_CN_L_OFF 	TIM_CCxNCmd(TIM1, TIM_Channel_3, TIM_CCxN_Disable)
+
+#define PHASE_D_H_ON 		TIM_CCxCmd(TIM4, TIM_Channel_1, TIM_CCx_Enable)
+#define PHASE_D_H_OFF 		TIM_CCxCmd(TIM4, TIM_Channel_1, TIM_CCx_Disable)
+#define PHASE_DN_L_ON 	TIM_CCxCmd(TIM4, TIM_Channel_2, TIM_CCx_Enable)
+#define PHASE_DN_L_OFF 	TIM_CCxCmd(TIM4, TIM_Channel_2, TIM_CCx_Disable)
+
+#define PHASE_E_H_ON 		TIM_CCxCmd(TIM4, TIM_Channel_3, TIM_CCx_Enable)
+#define PHASE_E_H_OFF 		TIM_CCxCmd(TIM4, TIM_Channel_3, TIM_CCx_Disable)
+#define PHASE_EN_L_ON 	TIM_CCxCmd(TIM4, TIM_Channel_4, TIM_CCx_Enable)
+#define PHASE_EN_L_OFF 	TIM_CCxCmd(TIM4, TIM_Channel_4, TIM_CCx_Disable)
 
 #define PHASE_A_IN_ON 		TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Enable)
 #define PHASE_A_IN_OFF 		TIM_CCxCmd(TIM1, TIM_Channel_1, TIM_CCx_Disable)

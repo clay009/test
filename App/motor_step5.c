@@ -6,10 +6,26 @@
 static char step5_phase = 0;
 static bool clock_wise = TRUE; 
 
+/*
+1: IN, 0:OUT others high input
+	A	B	C	D	E
+0:	1	1	1	0	0	
+1:	0	1	1	0	0
+2:	0	1	1	1	0
+3:	0	0	1	1	0
+4:	0	0	1	1	1
+5:	0	0	0	1	1
+6:	1	0	0	1	1
+7:	1	0	0	0	1
+8:	1	1	0	0	1
+9:	1	1	0	0	0	
+
+
+*/
+	
 void Run_one_step(){
 	if(clock_wise){
-		step5_phase ++;
-		step5_phase %= MAX_PHASE;
+		step5_phase = (step5_phase + 1) % MAX_PHASE;
 		}
 	else{
 		step5_phase = (step5_phase + MAX_PHASE -1)%MAX_PHASE;
@@ -20,7 +36,145 @@ void Run_one_step(){
 
 	switch(step5_phase){
 		case 0:
+			//TURN OFF FIRST
+			PHASE_AN_L_OFF;
+			PHASE_BN_L_OFF;
+			PHASE_CN_L_OFF;
+			PHASE_D_H_OFF;
+			PHASE_E_H_OFF;
+			// DELAY THEN OPEN
+			PHASE_A_H_ON;
+			PHASE_B_H_ON;
+			PHASE_C_H_ON;		
+			PHASE_DN_L_ON;
+			PHASE_EN_L_ON;
 			break;
+		case 1:
+			//TURN OFF FIRST
+			PHASE_A_H_OFF;
+			PHASE_BN_L_OFF;
+			PHASE_CN_L_OFF;
+			PHASE_D_H_OFF;
+			PHASE_E_H_OFF;
+			// DELAY THEN OPEN
+			PHASE_AN_L_ON;			
+			PHASE_B_H_ON;
+			PHASE_C_H_ON;		
+			PHASE_DN_L_ON;
+			PHASE_EN_L_ON;
+			break;
+		case 2:
+			//TURN OFF FIRST
+			PHASE_A_H_OFF;
+			PHASE_BN_L_OFF;
+			PHASE_CN_L_OFF;
+			PHASE_DN_L_OFF;
+			PHASE_E_H_OFF;
+			// DELAY THEN OPEN
+			PHASE_AN_L_ON;			
+			PHASE_B_H_ON;
+			PHASE_C_H_ON;		
+			PHASE_D_H_ON;
+			PHASE_EN_L_ON;
+			break;
+		case 3:
+			//TURN OFF FIRST
+			PHASE_A_H_OFF;
+			PHASE_B_H_OFF;
+			PHASE_CN_L_OFF;
+			PHASE_DN_L_OFF;
+			PHASE_E_H_OFF;
+			// DELAY THEN OPEN
+			PHASE_AN_L_ON;			
+			PHASE_BN_L_ON;
+			PHASE_C_H_ON;		
+			PHASE_D_H_ON;
+			PHASE_EN_L_ON;
+			break;
+		case 4:
+			//TURN OFF FIRST
+			PHASE_A_H_OFF;
+			PHASE_B_H_OFF;
+			PHASE_CN_L_OFF;
+			PHASE_DN_L_OFF;
+			PHASE_EN_L_OFF;
+			// DELAY THEN OPEN
+			PHASE_AN_L_ON;			
+			PHASE_BN_L_ON;
+			PHASE_C_H_ON;		
+			PHASE_D_H_ON;
+			PHASE_E_H_ON;
+			break;
+		case 5:
+			//TURN OFF FIRST
+			PHASE_A_H_OFF;
+			PHASE_B_H_OFF;
+			PHASE_C_H_OFF;		
+			PHASE_DN_L_OFF;
+			PHASE_EN_L_OFF;
+			// DELAY THEN OPEN
+			PHASE_AN_L_ON;			
+			PHASE_BN_L_ON;
+			PHASE_CN_L_ON;
+			PHASE_D_H_ON;
+			PHASE_E_H_ON;
+			break;
+		case 6:
+			//TURN OFF FIRST
+			PHASE_AN_L_OFF;
+			PHASE_B_H_OFF;
+			PHASE_C_H_OFF;		
+			PHASE_DN_L_OFF;
+			PHASE_EN_L_OFF;
+			// DELAY THEN OPEN
+			PHASE_A_H_ON;			
+			PHASE_BN_L_ON;
+			PHASE_CN_L_ON;
+			PHASE_D_H_ON;
+			PHASE_E_H_ON;
+			break;
+		case 7:
+			//TURN OFF FIRST
+			PHASE_AN_L_OFF;
+			PHASE_B_H_OFF;
+			PHASE_C_H_OFF;		
+			PHASE_D_H_OFF;
+			PHASE_EN_L_OFF;
+			// DELAY THEN OPEN
+			PHASE_A_H_ON;			
+			PHASE_BN_L_ON;
+			PHASE_CN_L_ON;
+			PHASE_DN_L_ON;
+			PHASE_E_H_ON;
+			break;			
+		case 8:
+			//TURN OFF FIRST
+			PHASE_AN_L_OFF;
+			PHASE_BN_L_OFF;
+			PHASE_C_H_OFF;		
+			PHASE_D_H_OFF;
+			PHASE_EN_L_OFF;
+			// DELAY THEN OPEN
+			PHASE_A_H_ON;			
+			PHASE_B_H_ON;
+			PHASE_CN_L_ON;
+			PHASE_DN_L_ON;
+			PHASE_E_H_ON;
+			break;			
+		case 9:
+			//TURN OFF FIRST
+			PHASE_AN_L_OFF;
+			PHASE_BN_L_OFF;
+			PHASE_C_H_OFF;		
+			PHASE_D_H_OFF;
+			PHASE_E_H_OFF;
+			// DELAY THEN OPEN
+			PHASE_A_H_ON;			
+			PHASE_B_H_ON;
+			PHASE_CN_L_ON;
+			PHASE_DN_L_ON;
+			PHASE_EN_L_ON;
+			break;			
 		default:
 			break;
 		}
@@ -297,7 +451,7 @@ void STEP5_motor_init(void){
 	STEP5_IO_init();
 
 	Tim6_int_init();
-	TIM6_Configuration(50000);
+	TIM6_Configuration(50000);//50000 MS
 		
 	TIM4_Configuration();
 	TIM_SetCompare1(TIM4,400);	
@@ -310,15 +464,15 @@ void STEP5_motor_init(void){
 	TIM_SetCompare2(TIM1,400);	
 	TIM_SetCompare3(TIM1,400);	
 
-	PHASE_AN_OUT_OFF;
-	PHASE_BN_OUT_OFF;
-	PHASE_CN_OUT_OFF;
-	PHASE_DN_OUT_OFF;
-	PHASE_EN_OUT_OFF;
-	PHASE_A_IN_OFF;
-	PHASE_B_IN_OFF;
-	PHASE_C_IN_OFF;
-	PHASE_D_IN_OFF;
-	PHASE_E_IN_OFF;
+	PHASE_AN_L_OFF;
+	PHASE_BN_L_OFF;
+	PHASE_CN_L_OFF;
+	PHASE_DN_L_OFF;
+	PHASE_EN_L_OFF;
+	PHASE_A_H_OFF;
+	PHASE_B_H_OFF;
+	PHASE_C_H_OFF;
+	PHASE_D_H_OFF;
+	PHASE_E_H_OFF;
 	//TIM_Cmd(TIM6, ENABLE); 
 }

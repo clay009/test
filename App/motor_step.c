@@ -367,7 +367,7 @@ void STEP_M_dec_stop(void){
 			delay_ms(acc_delay);
 			i += acc_delay;
 			current_speed -= gap ;
-			if(current_speed < 0 ) break;
+			if(current_speed <= 0 ) break;
 		}
 	
 	current_speed = 0;
