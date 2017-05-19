@@ -2,6 +2,30 @@
 #include "motor_step5.h"
 #include "SysTickDelay.h"
 
+#define MAX_PHASE	10
+static char step5_phase = 0;
+static bool clock_wise = TRUE; 
+
+void Run_one_step(){
+	if(clock_wise){
+		step5_phase ++;
+		step5_phase %= MAX_PHASE;
+		}
+	else{
+		step5_phase = (step5_phase + MAX_PHASE -1)%MAX_PHASE;
+		}
+	TIM_SelectOCxM(TIM1, TIM_Channel_1, TIM_OCMode_PWM1);
+	TIM_SelectOCxM(TIM1, TIM_Channel_2, TIM_OCMode_PWM1);
+	TIM_SelectOCxM(TIM1, TIM_Channel_3, TIM_OCMode_PWM1);
+
+	switch(step5_phase){
+		case 0:
+			break;
+		default:
+			break;
+		}
+}
+
 void TIM1_PWM_Init(u16 arr,u16 psc)
 {  
 	 GPIO_InitTypeDef GPIO_InitStructure;
@@ -141,7 +165,7 @@ void TIM4_Configuration(void)
 	}
 
 
-void TIM66_Configuration(uint16_t interval)
+void TIM6_Configuration(uint16_t interval)
 	{
 		TIM_TimeBaseInitTypeDef  TIM6_TimeBaseStructure;
 //		TIM_OCInitTypeDef  TIM_OCInitStructure;
@@ -216,7 +240,7 @@ void TIM66_Configuration(uint16_t interval)
 //	TIM_Cmd(TIM6, ENABLE);  //使能TIMx外设
 	}
 
-void STEP5_M_timer_init(void){
+void Tim6_int_init(void){
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 		/* Enable the TIM6 for motor0 global Interrupt */
@@ -228,8 +252,11 @@ void STEP5_M_timer_init(void){
 
 }
 
+
+
+
 static bool test_int = FALSE;
-void STEP5_int(void){
+void STEP5_motor_phase_INT(void){
 	//	STEP5_CLK_TOGGLE();
 	if(test_int){
 		STEP5_CLK_H();
@@ -240,32 +267,23 @@ void STEP5_int(void){
 		test_int = TRUE;
 		STEP5_CLK_L();
 	}
+
+	Run_one_step();
 }
 
 
 void STEP5_IO_init(){
 		GPIO_InitTypeDef GPIO_InitStructure;
 
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB| RCC_APB2Periph_GPIOC| RCC_APB2Periph_GPIOD, ENABLE);//|RCC_APB2Periph_AFIO
+	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB| RCC_APB2Periph_GPIOC| RCC_APB2Periph_GPIOD, ENABLE);//|RCC_APB2Periph_AFIO
 	
-
-		/*GPIOA Configuration: TIM4 channel1*/	  //设置该引脚为复用输出功能,输出TIM4 CH1的PWM脉冲波形
+	//for test only
 	GPIO_InitStructure.GPIO_Pin = CLK5_PIN; //TIM_CH1
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;//GPIO_Mode_Out_PP;//GPIO_Mode_AF_PP;  //复用推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(CLK5_PORT, &GPIO_InitStructure);
-
-
 	STEP5_CLK_L();//default for rasing edge  	
 
-	
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12; //test
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  //复用推挽输出//GPIO_Mode_Out_PP--normal 
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//	GPIO_Init(GPIOA, &GPIO_InitStructure);
-//	GPIO_ResetBits(GPIOA, GPIO_Pin_12);
-	
-                                                      	
 
 	GPIO_InitStructure.GPIO_Pin =GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  
@@ -275,11 +293,11 @@ void STEP5_IO_init(){
 
 }
 
-void STEP5_init(void){
+void STEP5_motor_init(void){
 	STEP5_IO_init();
 
-	STEP5_M_timer_init();
-	TIM66_Configuration(50000);
+	Tim6_int_init();
+	TIM6_Configuration(50000);
 		
 	TIM4_Configuration();
 	TIM_SetCompare1(TIM4,400);	
@@ -292,5 +310,15 @@ void STEP5_init(void){
 	TIM_SetCompare2(TIM1,400);	
 	TIM_SetCompare3(TIM1,400);	
 
-	TIM_Cmd(TIM6, ENABLE); 
+	PHASE_AN_OUT_OFF;
+	PHASE_BN_OUT_OFF;
+	PHASE_CN_OUT_OFF;
+	PHASE_DN_OUT_OFF;
+	PHASE_EN_OUT_OFF;
+	PHASE_A_IN_OFF;
+	PHASE_B_IN_OFF;
+	PHASE_C_IN_OFF;
+	PHASE_D_IN_OFF;
+	PHASE_E_IN_OFF;
+	//TIM_Cmd(TIM6, ENABLE); 
 }

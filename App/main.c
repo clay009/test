@@ -277,17 +277,16 @@ int main(void)
 	STM_EVAL_PBInit(Button_WAKEUP,Mode_GPIO);
 	STM_EVAL_PBInit(Button_KEY1, Mode_GPIO);	
 #else
-	STEP5_init();
-	//STEP5_CLK_H();
-		STM_EVAL_LEDOff(LED1);	 //Ï¨ÃðLED0
-	STM_EVAL_LEDOff(LED2);	 //Ï¨ÃðLED0
+	STEP5_motor_init();
+	TIM_Cmd(TIM6, ENABLE); 
 #endif	
 	while(1)
 		{
 			//printf("\n uncompleted circle =%d , ",STEP_M_get_uncompleted_circle());
-
+			delay_ms(5);
 			//STM_EVAL_LEDToggle(LED2);
 			//STEP5_CLK_L();
+			#if 0
 			pwm_set_pwm_hi(TIM_Channel_1);
 			pwm_set_pwm_hi(TIM_Channel_2);
 			pwm_set_pwm_hi(TIM_Channel_3);
@@ -301,11 +300,40 @@ int main(void)
 			//TIM_CCxNCmd(TIM1, TIM_Channel_1, TIM_CCxN_Enable);						
 			//STEP5_CLK_H();
 			delay_ms(5);
-			#if 0
+			
 			pwm_set____off(TIM_Channel_1);
 			pwm_set____off(TIM_Channel_2);
 			pwm_set____off(TIM_Channel_3);
 			delay_ms(5);
+			#elif 0
+				TIM_SelectOCxM(TIM1, TIM_Channel_1, TIM_OCMode_PWM1);
+				TIM_SelectOCxM(TIM1, TIM_Channel_2, TIM_OCMode_PWM1);
+				TIM_SelectOCxM(TIM1, TIM_Channel_3, TIM_OCMode_PWM1);
+				PHASE_A_IN_ON;
+				PHASE_AN_OUT_OFF;
+				PHASE_B_IN_ON;
+				PHASE_BN_OUT_OFF;
+				PHASE_C_IN_ON;
+				PHASE_CN_OUT_OFF;
+				PHASE_D_IN_ON;
+				PHASE_DN_OUT_OFF;
+				PHASE_E_IN_ON;
+				PHASE_EN_OUT_OFF;
+				delay_ms(50);
+				TIM_SelectOCxM(TIM1, TIM_Channel_1, TIM_OCMode_PWM1);
+				TIM_SelectOCxM(TIM1, TIM_Channel_2, TIM_OCMode_PWM1);
+				TIM_SelectOCxM(TIM1, TIM_Channel_3, TIM_OCMode_PWM1);
+				PHASE_A_IN_OFF;
+				PHASE_AN_OUT_ON;
+				PHASE_B_IN_OFF;
+				PHASE_BN_OUT_ON;
+				PHASE_C_IN_OFF;
+				PHASE_CN_OUT_ON;
+				PHASE_D_IN_OFF;
+				PHASE_DN_OUT_ON;
+				PHASE_E_IN_OFF;
+				PHASE_EN_OUT_ON;
+				delay_ms(50);
 			#endif
 			
 			#if 0

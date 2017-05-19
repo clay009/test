@@ -27,6 +27,7 @@
 //#include <stdio.h>
 #include "motor_servo.h"
 #include "motor_step.h"
+#include "motor_step5.h"
 #include "SysTickDelay.h"
 #include "msg_handler.h"
 
@@ -216,7 +217,7 @@ void TIM3_IRQHandler(void)   //TIM3ÖÐ¶Ï
 	}
 
 
-extern void STEP5_int(void);
+
 void TIM6_IRQHandler(void)   //TIM3ÖÐ¶Ï
 	{
 	//STM_EVAL_LEDToggle(LED1);
@@ -226,7 +227,7 @@ void TIM6_IRQHandler(void)   //TIM3ÖÐ¶Ï
 		/* Pin PD.02 toggling with frequency = 10KHz */
 		//STEP_M_CLK_toggle();//step motor use pwm
 		//	SERVO_M_run_step();
-		STEP5_int();
+		STEP5_motor_init();
 		//STM_EVAL_LEDToggle(LED2);
 		}
 	}
